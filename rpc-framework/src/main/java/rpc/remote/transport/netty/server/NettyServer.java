@@ -43,7 +43,7 @@ public class NettyServer implements RpcServer {
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
-                .childHandler(new NettyChannelHandlerInitializer());
+                .childHandler(new NettyChannelHandlerInitializer(handlers));
         try {
             ChannelFuture cf = bootstrap.bind(endPoint.getPort()).sync();
             cf.channel().closeFuture().sync();

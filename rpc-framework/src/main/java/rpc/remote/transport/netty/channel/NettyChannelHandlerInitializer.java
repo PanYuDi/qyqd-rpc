@@ -2,6 +2,9 @@ package rpc.remote.transport.netty.channel;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
+import rpc.remote.MessageHandler;
+
+import java.util.List;
 
 /**
  * @ClassName RpcChannelHandlerInitializer
@@ -11,6 +14,10 @@ import io.netty.channel.socket.SocketChannel;
  * Version 1.0
  */
 public class NettyChannelHandlerInitializer extends ChannelInitializer<SocketChannel> {
+    List<MessageHandler> messageHandlers;
+    public NettyChannelHandlerInitializer(List<MessageHandler> messageHandlers) {
+        this.messageHandlers = messageHandlers;
+    }
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
 
