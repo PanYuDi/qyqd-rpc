@@ -1,5 +1,6 @@
 package github.qyqd.rpc.remote.transport.netty.codec;
 
+import github.qyqd.common.enums.ProtocolMessageTypeEnum;
 import github.qyqd.common.exception.MessageCodecException;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -50,8 +51,11 @@ public class ChannelMessageDecoder extends LengthFieldBasedFrameDecoder {
     private ProtocolMessage decodeFrame(ByteBuf buf) {
         ProtocolMessage protocolMessage = new ProtocolMessage();
         checkMagic(buf);
+        protocolMessage.setLen(buf.readInt());
         checkVersion(buf);
-        return null;
+        protocolMessage.setMessageType(ProtocolMessageTypeEnum.getEnum(buf.readByte()));
+        protocolMessage.setRequestId(buf.readInt());
+        return protocolMessage;
     }
     private void checkMagic(ByteBuf buf) {
         byte[] magicData = new byte[ProtocolConstant.MAGIC_LEN];

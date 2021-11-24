@@ -1,12 +1,20 @@
 package github.qyqd.rpc.remote.message;
 
+import github.qyqd.common.enums.ProtocolMessageTypeEnum;
 import github.qyqd.rpc.remote.RequestMessage;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author: PanYuDi
  * @Date: 2021/11/8 20:52
  * @Description: rpc基础协议消息
  */
+@Data
+@Builder
+@NoArgsConstructor
 public class ProtocolMessage implements RequestMessage {
     /**
      * 总长度
@@ -15,7 +23,7 @@ public class ProtocolMessage implements RequestMessage {
     /**
      * 请求负载数据类型
      */
-    String messageType;
+    ProtocolMessageTypeEnum messageType;
     /**
      * 用于判断是那个请求
      */

@@ -2,7 +2,7 @@ package github.qyqd.rpc.remote.transport.netty.channel;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import github.qyqd.rpc.remote.MessageHandler;
+import github.qyqd.rpc.remote.transport.netty.MessageHandler;
 
 import java.util.List;
 

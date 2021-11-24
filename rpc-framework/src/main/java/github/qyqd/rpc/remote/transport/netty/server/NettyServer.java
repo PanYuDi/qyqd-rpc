@@ -8,7 +8,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import github.qyqd.rpc.remote.MessageHandler;
+import github.qyqd.rpc.remote.transport.netty.MessageHandler;
 import github.qyqd.rpc.remote.RpcServer;
 import github.qyqd.rpc.remote.entity.EndPoint;
 import github.qyqd.rpc.remote.transport.netty.channel.NettyChannelHandlerInitializer;
