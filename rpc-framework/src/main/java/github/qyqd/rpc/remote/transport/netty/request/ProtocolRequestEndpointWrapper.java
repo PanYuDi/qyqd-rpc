@@ -5,14 +5,14 @@ import lombok.Data;
 
 /**
  * @ClassName ProtocolRequestWrapper
- * @Description TODO
+ * @Description 包装了实际传输地址和请求类型的请求
  * @Author 潘语笛
  * @Date 29/11/2021 下午3:25
  * Version 1.0
  */
 @Data
-public class ProtocolRequestWrapper implements ProtocolRequest {
-    int ip;
+public class ProtocolRequestEndpointWrapper implements ProtocolRequest {
+    int port;
     String host;
     ProtocolMessageTypeEnum messageTypeEnum;
     ProtocolRequest requestBody;

@@ -6,12 +6,11 @@ import github.qyqd.rpc.remote.transport.netty.channel.NettyRpcClientChannelHandl
 import github.qyqd.rpc.remote.transport.netty.codec.ChannelMessageDecoder;
 import github.qyqd.rpc.remote.transport.netty.codec.ChannelMessageEncoder;
 import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequest;
-import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequestWrapper;
+import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequestEndpointWrapper;
+import github.qyqd.rpc.remote.transport.serialize.ProtostuffSerializer;
+import github.qyqd.rpc.remote.transport.serialize.Serializer;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.logging.LogLevel;
@@ -19,7 +18,7 @@ import io.netty.handler.logging.LoggingHandler;
 
 /**
  * @ClassName NettyClient
- * @Description TODO
+ * @Description 数据通信客户端
  * @Author 潘语笛
  * @Date 29/11/2021 上午11:04
  * Version 1.0
@@ -27,6 +26,7 @@ import io.netty.handler.logging.LoggingHandler;
 public class NettyClient implements RpcClient {
     private final EventLoopGroup eventLoopGroup;
     private final Bootstrap bootstrap;
+    private final Serializer serializer = new ProtostuffSerializer();
     public NettyClient() {
         eventLoopGroup = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
@@ -44,9 +44,19 @@ public class NettyClient implements RpcClient {
                 });
     }
     @Override
-    public void send(ProtocolRequestWrapper message) {
+    public void send(ProtocolRequestEndpointWrapper req) {
         ProtocolMessage protocolMessage = ProtocolMessage.builder()
-                .messageType(message.getMessageTypeEnum())
-                .content()
+                .messageType(req.getMessageTypeEnum())
+                .content(serializer.serialize(req.getRequestBody())).build();
+        protocolMessage.setLen(protocolMessage.getContent().length);
+        try {
+            ChannelFuture channelFuture = bootstrap.connect(req.getHost(), req.getPort()).sync();
+            Channel channel = channelFuture.channel();
+            channel.writeAndFlush(protocolMessage);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            eventLoopGroup.shutdownGracefully();
+        }
     }
 }

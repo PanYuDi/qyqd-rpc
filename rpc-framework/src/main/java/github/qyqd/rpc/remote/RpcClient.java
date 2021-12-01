@@ -2,7 +2,7 @@ package github.qyqd.rpc.remote;
 
 import github.qyqd.rpc.remote.message.ProtocolMessage;
 import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequest;
-import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequestWrapper;
+import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequestEndpointWrapper;
 
 /**
  * @Author: PanYuDi
@@ -14,5 +14,5 @@ public interface RpcClient {
      * 传输信息
      * @param message
      */
-    public void send(ProtocolRequestWrapper message);
+    public void send(ProtocolRequestEndpointWrapper message);
 }
