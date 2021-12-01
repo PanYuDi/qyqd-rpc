@@ -53,7 +53,7 @@ public class NettyServer implements RpcServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-        log.info("github.qyqd.rpc server started at port" + endPoint.getPort());
+        log.info("rpc server started at port" + endPoint.getPort());
 
 
     }

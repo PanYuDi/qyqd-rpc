@@ -1,5 +1,6 @@
 package github.qyqd.rpc.remote.transport.netty.channel;
 
+import github.qyqd.rpc.remote.RequestMessage;
 import github.qyqd.rpc.remote.transport.netty.MessageHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -14,13 +15,15 @@ import java.util.List;
  * Version 1.0
  */
 public class NettyRpcServerChannelHandler extends ChannelInboundHandlerAdapter {
-    List<MessageHandler> messageHandlers;
+    MessageHandler messageHandler;
     public NettyRpcServerChannelHandler() {
         super();
 
     }
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
+        if(messageHandler.canHandle(msg)) {
+            messageHandler.handle((RequestMessage) msg, ctx);
+        }
     }
 }

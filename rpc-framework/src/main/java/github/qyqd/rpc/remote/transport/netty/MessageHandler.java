@@ -8,7 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
  * @Date: 2021/11/8 20:43
  * @Description: 抽象类处理消息
  */
-public interface MessageHandler<T extends RequestMessage> {
-    public Object handle(T message, ChannelHandlerContext ctx);
+public interface MessageHandler {
+    public Object handle(RequestMessage message, ChannelHandlerContext ctx);
 
+    public boolean canHandle(Object message);
 }

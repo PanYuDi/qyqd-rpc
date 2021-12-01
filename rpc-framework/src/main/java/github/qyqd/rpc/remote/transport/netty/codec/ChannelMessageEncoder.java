@@ -24,5 +24,6 @@ public class ChannelMessageEncoder extends MessageToByteEncoder<ProtocolMessage>
         out.writeByte(ProtocolConstant.CURRENT_VERSION);
         out.writeByte(msg.getMessageType().getCode());
         out.writeInt(msg.getRequestId());
+        out.writeBytes(msg.getContent());
     }
 }

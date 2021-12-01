@@ -12,8 +12,9 @@ import lombok.Data;
  */
 @AllArgsConstructor
 public enum ProtocolMessageTypeEnum {
+    TEST_MESSAGE(1, "测试消息"),
     RPC_MESSAGE(1, "rpc通信消息"),
-    CONNECT_MESSAGE(1, "检查连接消息")
+    CONNECT_MESSAGE(2, "检查连接消息")
     ;
     int code;
     String message;
