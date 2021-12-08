@@ -25,7 +25,7 @@ public class MessageHandlerContext implements MessageHandler {
     public Object handle(RequestMessage message, ChannelHandlerContext ctx) {
         ProtocolMessage protocolMessage = (ProtocolMessage) message;
         if(protocolMessage.getMessageType() == null) {
-            throw new ProtocolException("message type un support!!!");
+            throw new ProtocolException("message type not support!!!");
         }
 
         return handlerMap.get(protocolMessage).handle(message, ctx);
@@ -38,5 +38,8 @@ public class MessageHandlerContext implements MessageHandler {
         } else {
             return false;
         }
+    }
+    public void put(ProtocolMessageTypeEnum typeEnum, MessageHandler messageHandler) {
+        handlerMap.put(typeEnum, messageHandler);
     }
 }

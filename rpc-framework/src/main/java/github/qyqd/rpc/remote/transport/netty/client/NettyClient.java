@@ -49,6 +49,8 @@ public class NettyClient implements RpcClient {
                 .messageType(req.getMessageTypeEnum())
                 .content(serializer.serialize(req.getRequestBody())).build();
         protocolMessage.setLen(protocolMessage.getContent().length);
+        protocolMessage.setMessageType(req.getMessageTypeEnum());
+        protocolMessage.setContent(serializer.serialize(req.getRequestBody()));
         try {
             ChannelFuture channelFuture = bootstrap.connect(req.getHost(), req.getPort()).sync();
             Channel channel = channelFuture.channel();

@@ -13,8 +13,9 @@ import lombok.Data;
 @AllArgsConstructor
 public enum ProtocolMessageTypeEnum {
     TEST_MESSAGE(1, "测试消息"),
-    RPC_MESSAGE(1, "rpc通信消息"),
-    CONNECT_MESSAGE(2, "检查连接消息")
+    RPC_MESSAGE(2, "rpc通信消息"),
+    HEARTBEAT_REQUEST_MESSAGE(3, "心跳检测消息"),
+    HEARTBEAT_RESPONSE_MESSAGE(4, "心跳检测返回消息")
     ;
     int code;
     String message;
