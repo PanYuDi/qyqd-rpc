@@ -8,7 +8,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import github.qyqd.rpc.remote.transport.netty.MessageHandler;
 import github.qyqd.rpc.remote.RpcServer;
 import github.qyqd.rpc.remote.entity.EndPoint;
 import github.qyqd.rpc.remote.transport.netty.channel.NettyChannelHandlerInitializer;
@@ -25,12 +24,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Component
 @Slf4j
 public class NettyServer implements RpcServer {
-    List<MessageHandler> handlers = new CopyOnWriteArrayList<>();
     EndPoint endPoint;
     EventLoopGroup bossGroup;
     EventLoopGroup workerGroup;
-    public NettyServer(EndPoint endPoint, MessageHandler... messageHandlers) {
-        handlers.addAll(Arrays.asList(messageHandlers));
+    public NettyServer(EndPoint endPoint) {
         this.endPoint = endPoint;
     }
     @Override
@@ -42,9 +39,10 @@ public class NettyServer implements RpcServer {
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 128)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
-                .childHandler(new NettyChannelHandlerInitializer(handlers));
+                .childHandler(new NettyChannelHandlerInitializer());
         try {
             ChannelFuture cf = bootstrap.bind(endPoint.getPort()).sync();
+            log.info("rpc server started at port" + endPoint.getPort());
             cf.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("occur exception when start server:", e);
@@ -53,7 +51,6 @@ public class NettyServer implements RpcServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-        log.info("rpc server started at port" + endPoint.getPort());
 
 
     }

@@ -4,6 +4,7 @@ import github.qyqd.common.exception.ProtocolException;
 import github.qyqd.rpc.remote.message.ProtocolMessage;
 import github.qyqd.rpc.remote.transport.netty.MessageHandler;
 import github.qyqd.rpc.remote.transport.netty.handler.MessageHandlerContext;
+import github.qyqd.rpc.remote.transport.netty.handler.factory.ClientMessageHandlerContextFactory;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
-    MessageHandler messageHandler;
+    MessageHandler messageHandler = new ClientMessageHandlerContextFactory().create();
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.debug("client read {}", msg);
