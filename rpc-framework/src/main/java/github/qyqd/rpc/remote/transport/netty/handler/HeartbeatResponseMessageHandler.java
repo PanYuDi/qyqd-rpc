@@ -3,6 +3,7 @@ package github.qyqd.rpc.remote.transport.netty.handler;
 import github.qyqd.common.enums.ProtocolMessageTypeEnum;
 import github.qyqd.rpc.remote.RequestMessage;
 import github.qyqd.rpc.remote.message.ProtocolMessage;
+import github.qyqd.rpc.remote.message.heartbeat.HeartbeatMessage;
 import github.qyqd.rpc.remote.transport.netty.MessageHandler;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -16,15 +17,20 @@ import io.netty.channel.ChannelHandlerContext;
 public class HeartbeatResponseMessageHandler implements MessageHandler {
     @Override
     public Object handle(RequestMessage message, ChannelHandlerContext ctx) {
-        System.out.println(((ProtocolMessage)message).getContent());
+        System.out.println(((HeartbeatMessage)message).getContent());
         return null;
     }
 
     @Override
     public boolean canHandle(Object message) {
-        if(message instanceof ProtocolMessage && ((ProtocolMessage) message).getMessageType() == ProtocolMessageTypeEnum.HEARTBEAT_RESPONSE_MESSAGE) {
+        if(message instanceof HeartbeatMessage) {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Class getHandleableType() {
+        return HeartbeatMessage.class;
     }
 }

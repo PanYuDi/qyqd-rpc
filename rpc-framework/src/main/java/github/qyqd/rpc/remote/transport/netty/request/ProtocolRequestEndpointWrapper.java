@@ -1,6 +1,7 @@
 package github.qyqd.rpc.remote.transport.netty.request;
 
 import github.qyqd.common.enums.ProtocolMessageTypeEnum;
+import github.qyqd.rpc.remote.RequestMessage;
 import lombok.Data;
 
 /**
@@ -11,9 +12,9 @@ import lombok.Data;
  * Version 1.0
  */
 @Data
-public class ProtocolRequestEndpointWrapper implements ProtocolRequest {
+public class ProtocolRequestEndpointWrapper implements RequestMessage {
     int port;
     String host;
     ProtocolMessageTypeEnum messageTypeEnum;
-    ProtocolRequest requestBody;
+    RequestMessage requestBody;
 }

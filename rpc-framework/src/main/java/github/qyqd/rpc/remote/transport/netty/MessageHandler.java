@@ -12,4 +12,6 @@ public interface MessageHandler {
     public Object handle(RequestMessage message, ChannelHandlerContext ctx);
 
     public boolean canHandle(Object message);
+
+    public Class getHandleableType();
 }

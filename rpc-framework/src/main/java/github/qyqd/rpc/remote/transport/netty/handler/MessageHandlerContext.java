@@ -5,6 +5,7 @@ import github.qyqd.common.exception.ProtocolException;
 import github.qyqd.rpc.remote.RequestMessage;
 import github.qyqd.rpc.remote.message.ProtocolMessage;
 import github.qyqd.rpc.remote.transport.netty.MessageHandler;
+import github.qyqd.rpc.remote.utils.ProtocolMessageUtils;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,8 +28,10 @@ public class MessageHandlerContext implements MessageHandler {
         if(protocolMessage.getMessageType() == null) {
             throw new ProtocolException("message type not support!!!");
         }
-
-        return handlerMap.get(protocolMessage).handle(message, ctx);
+        MessageHandler handler = handlerMap.get(protocolMessage.getMessageType());
+        // 反序列化解析
+        RequestMessage requestMessage = ProtocolMessageUtils.deserializeRequestMessage(protocolMessage,handler.getHandleableType());
+        return handler.handle(requestMessage, ctx);
     }
 
     @Override
@@ -39,6 +42,12 @@ public class MessageHandlerContext implements MessageHandler {
             return false;
         }
     }
+
+    @Override
+    public Class getHandleableType() {
+        return ProtocolMessage.class;
+    }
+
     public void put(ProtocolMessageTypeEnum typeEnum, MessageHandler messageHandler) {
         handlerMap.put(typeEnum, messageHandler);
     }

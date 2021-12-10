@@ -1,7 +1,6 @@
 package github.qyqd.rpc.remote;
 
 import github.qyqd.rpc.remote.message.ProtocolMessage;
-import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequest;
 import github.qyqd.rpc.remote.transport.netty.request.ProtocolRequestEndpointWrapper;
 
 /**

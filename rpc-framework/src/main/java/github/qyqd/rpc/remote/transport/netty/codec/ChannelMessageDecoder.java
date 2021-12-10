@@ -51,10 +51,13 @@ public class ChannelMessageDecoder extends LengthFieldBasedFrameDecoder {
     private ProtocolMessage decodeFrame(ByteBuf buf) {
         ProtocolMessage protocolMessage = new ProtocolMessage();
         checkMagic(buf);
-        protocolMessage.setLen(buf.readInt());
+        protocolMessage.setLen(buf.readInt() - 14);
         checkVersion(buf);
         protocolMessage.setMessageType(ProtocolMessageTypeEnum.getEnum(buf.readByte()));
         protocolMessage.setRequestId(buf.readInt());
+        byte[] content = new byte[protocolMessage.getLen()];
+        buf.readBytes(content);
+        protocolMessage.setContent(content);
         return protocolMessage;
     }
     private void checkMagic(ByteBuf buf) {
