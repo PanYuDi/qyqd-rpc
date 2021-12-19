@@ -31,7 +31,7 @@ public class HeartbeatRequestMessageHandler implements MessageHandler {
             throw new MessageHandlerException("you gotta be kidding me");
         }
         log.debug("接受到心跳消息{}", new String(content, StandardCharsets.UTF_8));
-        ctx.writeAndFlush(ProtocolMessageUtils.createHeartBeatResponseMessage());
+        ctx.writeAndFlush(ProtocolMessageUtils.buildProtocolMessage(ProtocolMessageUtils.createHeartBeatResponseMessage(), ProtocolMessageTypeEnum.HEARTBEAT_RESPONSE_MESSAGE));
         return null;
     }
 

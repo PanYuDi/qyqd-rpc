@@ -25,7 +25,7 @@ public class NettyRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
         if(!(msg instanceof ProtocolMessage)) {
             throw new ProtocolException("client read failed");
         }
-
+        messageHandler.handle((ProtocolMessage)msg, ctx);
 
     }
 }

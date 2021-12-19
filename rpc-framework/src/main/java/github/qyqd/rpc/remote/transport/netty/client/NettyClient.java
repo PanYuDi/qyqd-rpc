@@ -1,5 +1,6 @@
 package github.qyqd.rpc.remote.transport.netty.client;
 
+import github.qyqd.rpc.remote.RequestMessage;
 import github.qyqd.rpc.remote.RpcClient;
 import github.qyqd.rpc.remote.message.ProtocolMessage;
 import github.qyqd.rpc.remote.transport.netty.channel.NettyRpcClientChannelHandler;
@@ -16,6 +17,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import lombok.extern.slf4j.Slf4j;
+
+import java.net.InetSocketAddress;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @ClassName NettyClient
@@ -24,6 +30,7 @@ import io.netty.handler.logging.LoggingHandler;
  * @Date 29/11/2021 上午11:04
  * Version 1.0
  */
+@Slf4j
 public class NettyClient implements RpcClient {
     private final EventLoopGroup eventLoopGroup;
     private final Bootstrap bootstrap;
@@ -45,16 +52,40 @@ public class NettyClient implements RpcClient {
                 });
     }
     @Override
-    public void send(ProtocolRequestEndpointWrapper req) {
+    public Object send(ProtocolRequestEndpointWrapper req) {
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(req.getHost(), req.getPort());
         ProtocolMessage protocolMessage = ProtocolMessageUtils.buildProtocolMessage(req.getRequestBody(), req.getMessageTypeEnum());
+        CompletableFuture<Channel> channelCompletableFuture = new CompletableFuture<>();
+        CompletableFuture<RequestMessage> resultFuture = new CompletableFuture<>();
         try {
             ChannelFuture channelFuture = bootstrap.connect(req.getHost(), req.getPort()).sync();
             Channel channel = channelFuture.channel();
-            channel.writeAndFlush(protocolMessage);
+            channelFuture.addListener((ChannelFutureListener)future->{
+                if(future.isSuccess()) {
+                    log.info("The client has connected [{}] successful!", inetSocketAddress.toString());
+                    channelCompletableFuture.complete(future.channel());
+                } else {
+                    throw new IllegalStateException();
+                }
+            });
+
+            if(channel.isActive()) {
+                channel.writeAndFlush(protocolMessage).addListener((ChannelFutureListener) future ->{
+                    if(future.isSuccess()) {
+                        log.info("client send message : [{}]", protocolMessage);
+                    } else {
+                        future.channel().close();
+                        resultFuture.completeExceptionally(future.cause());
+                        log.error("Send failed:", future.cause());
+                    }
+                });
+
+            } else {
+                throw new IllegalStateException();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            eventLoopGroup.shutdownGracefully();
         }
+        return resultFuture;
     }
 }

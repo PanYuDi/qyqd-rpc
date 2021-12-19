@@ -6,6 +6,9 @@ import github.qyqd.rpc.remote.message.ProtocolMessage;
 import github.qyqd.rpc.remote.message.heartbeat.HeartbeatMessage;
 import github.qyqd.rpc.remote.transport.netty.MessageHandler;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @ClassName HeartbeatResponseMessageHandler
@@ -14,10 +17,11 @@ import io.netty.channel.ChannelHandlerContext;
  * @Date 8/12/2021 上午11:29
  * Version 1.0
  */
+@Slf4j
 public class HeartbeatResponseMessageHandler implements MessageHandler {
     @Override
     public Object handle(RequestMessage message, ChannelHandlerContext ctx) {
-        System.out.println(((HeartbeatMessage)message).getContent());
+        log.debug("接收到心跳消息，{}", new String(((HeartbeatMessage)message).getContent(), StandardCharsets.UTF_8));
         return null;
     }
 

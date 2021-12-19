@@ -13,5 +13,5 @@ public interface RpcClient {
      * 传输信息
      * @param message
      */
-    public void send(ProtocolRequestEndpointWrapper message);
+    public Object send(ProtocolRequestEndpointWrapper message);
 }
