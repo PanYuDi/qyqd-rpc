@@ -34,7 +34,8 @@ import java.util.concurrent.ExecutionException;
 public class NettyClient implements RpcClient {
     private final EventLoopGroup eventLoopGroup;
     private final Bootstrap bootstrap;
-    public NettyClient() {
+    private UnprocessedRequest unprocessedRequest;
+    public NettyClient(Long timeout) {
         eventLoopGroup = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
         bootstrap.group(eventLoopGroup)
@@ -50,12 +51,12 @@ public class NettyClient implements RpcClient {
                         pipeline.addLast(new NettyRpcClientChannelHandler());
                     }
                 });
+        unprocessedRequest = UnprocessedRequest.getSingleton(timeout);
     }
     @Override
     public Object send(ProtocolRequestEndpointWrapper req) {
         InetSocketAddress inetSocketAddress = new InetSocketAddress(req.getHost(), req.getPort());
         ProtocolMessage protocolMessage = ProtocolMessageUtils.buildProtocolMessage(req.getRequestBody(), req.getMessageTypeEnum());
-        CompletableFuture<Channel> channelCompletableFuture = new CompletableFuture<>();
         CompletableFuture<RequestMessage> resultFuture = new CompletableFuture<>();
         try {
             ChannelFuture channelFuture = bootstrap.connect(req.getHost(), req.getPort()).sync();
@@ -63,13 +64,13 @@ public class NettyClient implements RpcClient {
             channelFuture.addListener((ChannelFutureListener)future->{
                 if(future.isSuccess()) {
                     log.info("The client has connected [{}] successful!", inetSocketAddress.toString());
-                    channelCompletableFuture.complete(future.channel());
                 } else {
                     throw new IllegalStateException();
                 }
             });
-
             if(channel.isActive()) {
+                // 放入结果future
+                unprocessedRequest.putUnprocessedRequest(req.getRequestId(), resultFuture);
                 channel.writeAndFlush(protocolMessage).addListener((ChannelFutureListener) future ->{
                     if(future.isSuccess()) {
                         log.info("client send message : [{}]", protocolMessage);

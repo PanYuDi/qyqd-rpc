@@ -15,6 +15,7 @@ import lombok.Data;
 public class ProtocolRequestEndpointWrapper implements RequestMessage {
     int port;
     String host;
+    Integer requestId;
     ProtocolMessageTypeEnum messageTypeEnum;
     RequestMessage requestBody;
 }

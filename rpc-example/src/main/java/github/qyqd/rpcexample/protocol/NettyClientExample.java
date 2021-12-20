@@ -16,7 +16,7 @@ import github.qyqd.rpc.remote.utils.ProtocolMessageUtils;
  */
 public class NettyClientExample {
     public static void main(String[] args) {
-        RpcClient rpcClient = new NettyClient();
+        RpcClient rpcClient = new NettyClient(1000L);
         ProtocolRequestEndpointWrapper wrapper = new ProtocolRequestEndpointWrapper();
         wrapper.setHost("127.0.0.1");
         wrapper.setPort(8080);
