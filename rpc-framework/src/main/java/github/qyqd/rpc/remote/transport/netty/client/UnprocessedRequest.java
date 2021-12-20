@@ -6,6 +6,7 @@ import github.qyqd.common.utils.ConcurrentUtils;
 import github.qyqd.rpc.remote.RequestMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.concurrent.*;
@@ -18,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Date 20/12/2021 下午1:43
  * Version 1.0
  */
-
+@Slf4j
 public class UnprocessedRequest {
     private static AtomicInteger requestIdGenerator;
     public Map<Integer, CompletableFuture<RequestMessage>> requestFutureMap = new ConcurrentHashMap<>();
@@ -66,7 +67,12 @@ public class UnprocessedRequest {
         requestFutureMap.remove(requestId);
         return requestMessage;
     }
-    public void complete(RequestMessage requestMessage) {
+    public void complete(Integer requestId, RequestMessage requestMessage) {
+        if (!requestFutureMap.containsKey(requestId)) {
+            log.debug("request not exist, and requestId = {}", requestId);
+            return;
+        }
+        requestFutureMap.get(requestId).complete(requestMessage);
     }
     @AllArgsConstructor
     @Getter

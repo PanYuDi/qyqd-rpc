@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
-    MessageHandler messageHandler = new ClientMessageHandlerContextFactory().create();
     UnprocessedRequest unprocessedRequest = UnprocessedRequest.getSingleton();
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -27,6 +26,6 @@ public class NettyRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
         if(!(msg instanceof ProtocolMessage)) {
             throw new ProtocolException("client read failed");
         }
-        unprocessedRequest.
+        unprocessedRequest.complete(((ProtocolMessage) msg).getRequestId(), (ProtocolMessage)msg);
     }
 }
