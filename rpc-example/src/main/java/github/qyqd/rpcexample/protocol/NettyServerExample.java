@@ -1,8 +1,8 @@
 package github.qyqd.rpcexample.protocol;
 
-import github.qyqd.rpc.remote.RpcServer;
-import github.qyqd.rpc.remote.entity.EndPoint;
-import github.qyqd.rpc.remote.transport.netty.server.NettyServer;
+import github.qyqd.remote.RpcServer;
+import github.qyqd.remote.entity.EndPoint;
+import github.qyqd.remote.transport.netty.server.NettyServer;
 
 /**
  * @ClassName NettyServerExample
@@ -13,7 +13,7 @@ import github.qyqd.rpc.remote.transport.netty.server.NettyServer;
  */
 public class NettyServerExample {
     public static void main(String[] args) throws InterruptedException {
-        RpcServer rpcServer = new NettyServer(EndPoint.builder().host("127.0.0.1").port(8080).build());
+        RpcServer rpcServer = new NettyServer(EndPoint.builder().host("127.0.0.1").port(8088).build());
         rpcServer.start();
     }
 }

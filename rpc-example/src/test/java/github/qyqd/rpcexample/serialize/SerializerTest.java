@@ -1,8 +1,7 @@
 package github.qyqd.rpcexample.serialize;
 
-import github.qyqd.rpc.remote.transport.serialize.ProtostuffSerializer;
-import github.qyqd.rpc.remote.transport.serialize.Serializer;
-import lombok.Data;
+import github.qyqd.remote.transport.serialize.ProtostuffSerializer;
+import github.qyqd.remote.transport.serialize.Serializer;
 import org.junit.jupiter.api.Test;
 
 /**

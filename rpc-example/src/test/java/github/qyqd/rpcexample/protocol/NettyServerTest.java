@@ -1,8 +1,8 @@
 package github.qyqd.rpcexample.protocol;
 
-import github.qyqd.rpc.remote.RpcServer;
-import github.qyqd.rpc.remote.entity.EndPoint;
-import github.qyqd.rpc.remote.transport.netty.server.NettyServer;
+import github.qyqd.remote.RpcServer;
+import github.qyqd.remote.entity.EndPoint;
+import github.qyqd.remote.transport.netty.server.NettyServer;
 import org.junit.jupiter.api.Test;
 
 /**
