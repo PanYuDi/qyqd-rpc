@@ -1,4 +1,4 @@
-package github.qyqd.rpc;
+package github.qyqd.rpc.result;
 
 /**
  * @ClassName Result
@@ -13,7 +13,10 @@ public interface Result {
      * @return
      */
     Object getValue();
-
+    /**
+     * 设置结果值
+     */
+    void setValue(Object value);
     /**
      * 获取返回的异常
      * @return

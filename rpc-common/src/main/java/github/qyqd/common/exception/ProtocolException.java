@@ -7,7 +7,7 @@ package github.qyqd.common.exception;
  * @Date 25/11/2021 下午2:18
  * Version 1.0
  */
-public class ProtocolException extends RuntimeException{
+public class ProtocolException extends RpcException{
     public ProtocolException(String msg) {
         super(msg);
     }

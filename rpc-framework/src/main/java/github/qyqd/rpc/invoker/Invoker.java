@@ -1,6 +1,6 @@
 package github.qyqd.rpc.invoker;
 
-import github.qyqd.rpc.Result;
+import github.qyqd.rpc.result.Result;
 
 /**
  * @ClassName Invoker
@@ -10,12 +10,12 @@ import github.qyqd.rpc.Result;
  * Version 1.0
  */
 public interface Invoker {
+
     /**
-     * 执行方法调用
-     * @param parameters
-     * @param parameterTypes
+     * 实际执行服务
+     * @param invocation 服务调用参数
      * @return
      */
-    Result invoke(Object[] parameters, Class<?> parameterTypes);
+    Result invoke(Invocation invocation);
 
 }

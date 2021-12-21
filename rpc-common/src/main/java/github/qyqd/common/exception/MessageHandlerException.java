@@ -7,7 +7,7 @@ package github.qyqd.common.exception;
  * @Date 7/12/2021 下午2:39
  * Version 1.0
  */
-public class MessageHandlerException extends RuntimeException{
+public class MessageHandlerException extends RpcException{
     public MessageHandlerException(String msg) {
         super(msg);
     }

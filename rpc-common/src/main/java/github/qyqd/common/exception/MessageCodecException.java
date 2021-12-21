@@ -7,7 +7,7 @@ package github.qyqd.common.exception;
  * @Date 24/11/2021 下午2:16
  * Version 1.0
  */
-public class MessageCodecException extends RuntimeException {
+public class MessageCodecException extends RpcException {
     public MessageCodecException(String msg) {
         super(msg);
     }
