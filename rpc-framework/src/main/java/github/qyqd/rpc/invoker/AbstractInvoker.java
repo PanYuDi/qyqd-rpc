@@ -18,10 +18,10 @@ public abstract class AbstractInvoker implements Invoker {
         } catch (RpcException e) {
             // 是RPC框架抛出来的异常
             return new RpcResult(e);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             // 业务异常
             return new RpcResult(new BizException(e, "encounter exception while invoke rpc service " + invocation.getServiceName()));
         }
     }
-    public abstract Result doInvoke(Invocation invocation);
+    public abstract Result doInvoke(Invocation invocation) throws Throwable;
 }

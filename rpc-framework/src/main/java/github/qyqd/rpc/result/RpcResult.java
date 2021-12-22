@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 public class RpcResult implements Result{
     Object value;
     Throwable exception;
+    public RpcResult(Object result) {
+        this.value = result;
+    }
     public RpcResult(Throwable t) {
         exception = t;
     }

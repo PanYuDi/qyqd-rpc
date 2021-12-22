@@ -7,7 +7,7 @@ package github.qyqd.rpc.invoker;
  */
 public interface Invocation {
     /**
-     * 接口名称
+     * 接口全类名
      * @return
      */
     String getInterfaceName();
