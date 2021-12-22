@@ -14,4 +14,5 @@ public class ServiceInfo {
     Object bean;
     String interfaceName;
     String serviceName;
+    Class<?> clazz;
 }
