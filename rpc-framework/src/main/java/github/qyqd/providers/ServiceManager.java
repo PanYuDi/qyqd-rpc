@@ -2,6 +2,7 @@ package github.qyqd.providers;
 
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
+import github.qyqd.scanner.ServiceInfo;
 
 /**
  * @ClassName ServiceManager
@@ -16,7 +17,7 @@ public interface ServiceManager extends Provider {
      * @param invoker
      * @param invocation 服务信息
      */
-    public void addService(Invocation invocation, Invoker invoker);
+    public void addService(ServiceInfo serviceInfo, Invoker invoker);
 
     /**
      * 移除一个服务

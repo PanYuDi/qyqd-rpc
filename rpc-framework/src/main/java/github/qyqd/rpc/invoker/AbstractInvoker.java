@@ -23,5 +23,12 @@ public abstract class AbstractInvoker implements Invoker {
             return new RpcResult(new BizException(e, "encounter exception while invoke rpc service " + invocation.getServiceName()));
         }
     }
+
+    /**
+     * 执行服务
+     * @param invocation
+     * @return
+     * @throws Throwable
+     */
     public abstract Result doInvoke(Invocation invocation) throws Throwable;
 }

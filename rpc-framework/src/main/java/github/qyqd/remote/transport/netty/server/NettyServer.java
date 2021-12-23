@@ -17,7 +17,6 @@ import github.qyqd.remote.entity.EndPoint;
  * @Date: 2021/11/8 21:05
  * @Description: 底层Netty启动Rpc服务
  */
-@Component
 @Slf4j
 public class NettyServer implements RpcServer {
     EndPoint endPoint;

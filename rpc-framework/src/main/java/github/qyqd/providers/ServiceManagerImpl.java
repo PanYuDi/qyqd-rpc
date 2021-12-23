@@ -3,6 +3,7 @@ package github.qyqd.providers;
 import github.qyqd.common.exception.RpcException;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
+import github.qyqd.scanner.ServiceInfo;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -34,9 +35,9 @@ public class ServiceManagerImpl implements ServiceManager{
     }
 
     @Override
-    public void addService(Invocation invocation, Invoker invoker) {
-        Invoker invoker1 = serviceMap.putIfAbsent(invocation.getServiceName(), invoker);
-        if(invoker1 != invoker) {
+    public void addService(ServiceInfo serviceInfo, Invoker invoker) {
+        Invoker invoker1 = serviceMap.putIfAbsent(serviceInfo.getServiceName(), invoker);
+        if(invoker1 != null) {
             throw new RpcException("service name duplicated");
         }
     }

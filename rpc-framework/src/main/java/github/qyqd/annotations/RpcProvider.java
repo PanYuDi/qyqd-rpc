@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 /**
  * @Author: PanYuDi
  * @Date: 21/12/2021 下午8:11
- * @Description: 用于标明服务实现类
+ * @Description: 用于标明服务实现类,用这个注解标注的类会直接进spring
  */
 @Component
 @Documented
@@ -21,5 +21,11 @@ public @interface RpcProvider {
      * 指定的服务名称，服务注册时应提供默认值
      * @return
      */
-    String serviceName();
+    String serviceName() default "";
+
+    /**
+     * 实现方法的接口
+     * @return
+     */
+    Class<?> interfaceType();
 }

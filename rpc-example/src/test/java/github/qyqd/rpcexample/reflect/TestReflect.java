@@ -1,5 +1,6 @@
 package github.qyqd.rpcexample.reflect;
 
+import github.qyqd.annotations.RpcProvider;
 import github.qyqd.common.utils.ReflectUtils;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
@@ -20,5 +21,9 @@ public class TestReflect {
     @Test
     public void testSubclass() {
         System.out.println(ReflectUtils.isImplementation(RpcInvocation.class, Invocation.class));
+    }
+    @Test
+    public void testAnnotation() {
+        System.out.println(TestReflect.class.getAnnotation(RpcProvider.class));
     }
 }

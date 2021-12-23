@@ -1,5 +1,6 @@
 package github.qyqd.scanner;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -10,9 +11,10 @@ import lombok.Data;
  * Version 1.0
  */
 @Data
+@Builder
 public class ServiceInfo {
     Object bean;
-    String interfaceName;
+    Class<?> interfaceType;
     String serviceName;
-    Class<?> clazz;
+    Class<?> type;
 }
