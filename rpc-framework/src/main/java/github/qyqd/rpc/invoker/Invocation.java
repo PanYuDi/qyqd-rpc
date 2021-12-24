@@ -35,4 +35,10 @@ public interface Invocation {
      * @return
      */
     Object[] getParameters();
+
+    /**
+     * 获取url
+     * @return
+     */
+    String getUrl();
 }

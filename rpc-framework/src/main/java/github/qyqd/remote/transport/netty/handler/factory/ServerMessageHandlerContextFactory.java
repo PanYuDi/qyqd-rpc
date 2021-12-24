@@ -4,6 +4,7 @@ import github.qyqd.common.enums.ProtocolMessageTypeEnum;
 import github.qyqd.remote.transport.netty.handler.HeartbeatRequestMessageHandler;
 import github.qyqd.remote.transport.netty.handler.MessageHandlerContext;
 import github.qyqd.remote.transport.netty.MessageHandler;
+import github.qyqd.remote.transport.netty.handler.RpcRequestMessageHandler;
 
 /**
  * @ClassName NettyServerMessageHandlerContextFactory
@@ -17,6 +18,7 @@ public class ServerMessageHandlerContextFactory implements MessageHandlerFactory
     public MessageHandler create() {
         MessageHandlerContext messageHandlerContext = new MessageHandlerContext();
         messageHandlerContext.put(ProtocolMessageTypeEnum.HEARTBEAT_REQUEST_MESSAGE, new HeartbeatRequestMessageHandler());
+        messageHandlerContext.put(ProtocolMessageTypeEnum.RPC_REQUEST, new RpcRequestMessageHandler());
         return messageHandlerContext;
     }
 }

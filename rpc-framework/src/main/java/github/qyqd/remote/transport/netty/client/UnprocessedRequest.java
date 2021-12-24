@@ -110,4 +110,7 @@ public class UnprocessedRequest {
     public static Integer getRequestId() {
         return requestIdGenerator.getAndIncrement();
     }
+    public void setTimeOut(long timeout) {
+        this.TIME_OUT = timeout;
+    }
 }

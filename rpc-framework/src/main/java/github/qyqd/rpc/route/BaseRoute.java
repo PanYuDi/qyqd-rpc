@@ -32,6 +32,14 @@ public class BaseRoute {
      */
     String route;
     /**
+     * ip地址
+     */
+    String host;
+    /**
+     * 端口号
+     */
+    Integer port;
+    /**
      * 其他参数
      */
     Map<String, Object> parameters = new HashMap<>();

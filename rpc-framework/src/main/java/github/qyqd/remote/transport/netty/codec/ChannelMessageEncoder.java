@@ -17,8 +17,6 @@ public class ChannelMessageEncoder extends MessageToByteEncoder<ProtocolMessage>
     @Override
     protected void encode(ChannelHandlerContext ctx, ProtocolMessage msg, ByteBuf out) throws Exception {
         out.writeBytes(ProtocolConstant.MAGIC);
-        // TODO 先把requestid写死，之后用到再改
-        msg.setRequestId(0);
         if(msg.getContent().length >= ProtocolConstant.MAX_FRAME_LENGTH) {
             throw new MessageCodecException("message size exceed");
         }
