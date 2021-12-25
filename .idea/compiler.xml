@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="github.qyqd.rpc-common" />
         <module name="rpc-example" />
+        <module name="github.qyqd.rpc-example" />
         <module name="rpc-framework" />
       </profile>
     </annotationProcessing>
@@ -20,6 +21,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="example" options="-parameters" />
+      <module name="github.qyqd.rpc-example" options="-parameters" />
       <module name="rpc-example" options="-parameters" />
     </option>
   </component>

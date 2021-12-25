@@ -1,5 +1,7 @@
 package github.qyqd.rpc.route;
 
+import github.qyqd.common.enums.RouteTypeEnum;
+
 /**
  * @ClassName Parser
  * @Description 路由解析器
@@ -14,12 +16,6 @@ package github.qyqd.rpc.route;
  *
  */
 public interface Parser {
-    /**
-     * 生成一个路由地址
-     * @param route
-     * @return
-     */
-    String generateRouteUrl(BaseRoute route);
 
     /**
      * 解析路由地址
@@ -27,4 +23,14 @@ public interface Parser {
      * @return
      */
     BaseRoute parse(String url);
+
+    /**
+     * 解析出url对应的路由类型
+     * @param url
+     * @return
+     */
+    static RouteTypeEnum getRouteType(String url) {
+        String typeName = url.substring(7).split("/")[0];
+        return RouteTypeEnum.getTypeByName(typeName);
+    }
 }

@@ -16,6 +16,7 @@ public class RpcInvocation implements Invocation {
     String methodName;
     Class<?>[] parameterTypes;
     Object[] parameters;
+    String url;
     @Override
     public String getInterfaceName() {
         return interfaceName;
@@ -39,5 +40,10 @@ public class RpcInvocation implements Invocation {
     @Override
     public Object[] getParameters() {
         return parameters;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 }

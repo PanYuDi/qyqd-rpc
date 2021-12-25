@@ -2,6 +2,9 @@ package github.qyqd.rpcexample;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -15,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class FutureTest {
     @Test
     public void testCompletableFuture() throws ExecutionException, InterruptedException {
+        LinkedList<Integer> q = new LinkedList<>();
         CompletableFuture<String> future = new CompletableFuture<>();
         future.completeExceptionally(new Exception("lalalala"));
         future.get();

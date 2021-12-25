@@ -12,6 +12,7 @@ import github.qyqd.remote.utils.ProtocolMessageUtils;
 import github.qyqd.rpc.result.Result;
 import github.qyqd.rpc.result.RpcResult;
 import github.qyqd.rpc.route.BaseRoute;
+import github.qyqd.rpc.route.DirectRouteParser;
 import github.qyqd.rpc.route.Parser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +30,7 @@ import java.util.concurrent.ExecutionException;
 public class ClientServiceInvoker implements Invoker{
     private static RpcClient client = new NettyClient(1000 * 1000L);
     // TODO 路由解析器，赋值
-    Parser parser;
+    Parser parser = new DirectRouteParser();
     @Override
     public Result invoke(Invocation invocation) {
         BaseRoute route = parser.parse(invocation.getUrl());

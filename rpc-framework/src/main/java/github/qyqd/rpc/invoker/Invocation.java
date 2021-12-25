@@ -41,4 +41,10 @@ public interface Invocation {
      * @return
      */
     String getUrl();
+
+    void setMethodName(String methodName);
+
+    void setParameterTypes(Class<?>[] parameterTypes);
+
+    void setParameters(Object[] parameters);
 }
