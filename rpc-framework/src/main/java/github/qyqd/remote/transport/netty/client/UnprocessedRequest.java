@@ -49,7 +49,7 @@ public class UnprocessedRequest {
     public void putUnprocessedRequest(Integer requestId, CompletableFuture<RequestMessage> resultFuture) {
         requestFutureMap.put(requestId, resultFuture);
         // 放入延迟队列管理超时
-        timeoutQueue.put(new TimeoutMessage(requestId, System.nanoTime() + TIME_OUT));
+        timeoutQueue.put(new TimeoutMessage(requestId, System.currentTimeMillis() + TIME_OUT));
     }
     public RequestMessage get(String requestId) {
         if(!requestFutureMap.containsKey(requestId)) {
@@ -81,7 +81,7 @@ public class UnprocessedRequest {
         long timeoutStamp;
         @Override
         public long getDelay(TimeUnit unit) {
-            return unit.convert(timeoutStamp - System.nanoTime(), TimeUnit.NANOSECONDS);
+            return unit.convert(timeoutStamp - System.nanoTime(), TimeUnit.MILLISECONDS);
         }
 
         @Override

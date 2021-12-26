@@ -47,4 +47,11 @@ public interface Invocation {
     void setParameterTypes(Class<?>[] parameterTypes);
 
     void setParameters(Object[] parameters);
+
+    void setInterfaceName(String interfaceName);
+
+    void setServiceName(String serviceName);
+
+    void setUrl(String url);
+
 }

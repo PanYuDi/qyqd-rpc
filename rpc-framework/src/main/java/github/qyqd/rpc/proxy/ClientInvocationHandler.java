@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
  * @Description: jdk代理的handler类
  */
 public class ClientInvocationHandler implements InvocationHandler {
-    Invoker invoker = new ClientServiceInvoker();
+    private static Invoker invoker = new ClientServiceInvoker();
     Invocation invocation;
     public ClientInvocationHandler(Invocation invocation) {
         this.invocation = invocation;
@@ -23,9 +23,12 @@ public class ClientInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         invocation.setMethodName(method.getName());
         invocation.setParameters(args);
-        Class<?>[] types = new Class[args.length];
-        for(int i = 0; i < args.length; i++) {
-            types[i] = args[i].getClass();
+        Class<?>[] types = null;
+        if (args != null) {
+            types = new Class[args.length];
+            for(int i = 0; i < args.length; i++) {
+                types[i] = args[i].getClass();
+            }
         }
         invocation.setParameterTypes(types);
         Result result = invoker.invoke(invocation);

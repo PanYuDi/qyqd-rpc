@@ -27,12 +27,12 @@ import java.util.concurrent.ExecutionException;
  * Version 1.0
  */
 @Slf4j
-public class ClientServiceInvoker implements Invoker{
-    private static RpcClient client = new NettyClient(1000 * 1000L);
+public class ClientServiceInvoker extends AbstractInvoker{
+    private static RpcClient client = new NettyClient(1000 * 1000 * 1000L);
     // TODO 路由解析器，赋值
     Parser parser = new DirectRouteParser();
     @Override
-    public Result invoke(Invocation invocation) {
+    public Result doInvoke(Invocation invocation) {
         BaseRoute route = parser.parse(invocation.getUrl());
         ProtocolRequestEndpointWrapper wrapper = new ProtocolRequestEndpointWrapper();
         Integer requestId = ProtocolMessageUtils.generateRequestId();

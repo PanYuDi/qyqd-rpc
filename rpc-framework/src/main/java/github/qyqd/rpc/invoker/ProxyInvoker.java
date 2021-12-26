@@ -13,10 +13,10 @@ import github.qyqd.rpc.result.RpcResult;
  * Version 1.0
  */
 // TODO
-public class ProxyInvoker implements Invoker{
+public class ProxyInvoker extends AbstractInvoker{
     ProxyFactory proxyFactory = new JdkProxyFactory();
     @Override
-    public Result invoke(Invocation invocation) {
+    public Result doInvoke(Invocation invocation) {
         Object proxy = proxyFactory.createProxy(invocation);
         RpcResult rpcResult = new RpcResult();
         rpcResult.setValue(proxy);

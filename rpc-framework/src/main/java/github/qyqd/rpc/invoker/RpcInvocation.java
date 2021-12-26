@@ -1,7 +1,9 @@
 package github.qyqd.rpc.invoker;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author: PanYuDi
@@ -10,6 +12,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RpcInvocation implements Invocation {
     String interfaceName;
     String serviceName;
