@@ -8,5 +8,7 @@ package github.qyqd.annotations;
  * Version 1.0
  */
 public @interface RpcReference {
-    String route() default "";
+    String url() default "";
+
+    String serviceName() default "";
 }
