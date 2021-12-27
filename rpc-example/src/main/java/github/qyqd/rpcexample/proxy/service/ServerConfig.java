@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class ServerConfig {
     @Bean
     public RpcServer getServer() throws InterruptedException {
-        RpcServer rpcServer = new NettyServer(EndPoint.builder().host("127.0.0.1").port(8000).build());
+        RpcServer rpcServer = new NettyServer();
         return rpcServer;
     }
 }

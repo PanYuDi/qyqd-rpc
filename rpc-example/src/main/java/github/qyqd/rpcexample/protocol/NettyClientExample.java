@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class NettyClientExample {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        RpcClient rpcClient = new NettyClient(1000 * 1000 * 1000L);
+        RpcClient rpcClient = new NettyClient();
         ProtocolRequestEndpointWrapper wrapper = new ProtocolRequestEndpointWrapper();
         wrapper.setHost("127.0.0.1");
         wrapper.setPort(8088);

@@ -17,7 +17,7 @@ import java.util.Queue;
 public class NettyServerTest {
     @Test
     public void startServer() throws InterruptedException {
-        RpcServer rpcServer = new NettyServer(EndPoint.builder().host("127.0.0.1").port(8080).build());
+        RpcServer rpcServer = new NettyServer();
         rpcServer.start();
     }
 }

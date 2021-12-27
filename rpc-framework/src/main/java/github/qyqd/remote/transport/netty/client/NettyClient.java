@@ -32,7 +32,7 @@ public class NettyClient implements RpcClient {
     private final EventLoopGroup eventLoopGroup;
     private final Bootstrap bootstrap;
     private UnprocessedRequest unprocessedRequest;
-    public NettyClient(Long timeout) {
+    public NettyClient() {
         eventLoopGroup = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
         bootstrap.group(eventLoopGroup)
@@ -48,7 +48,7 @@ public class NettyClient implements RpcClient {
                         pipeline.addLast(new NettyRpcClientChannelHandler());
                     }
                 });
-        unprocessedRequest = UnprocessedRequest.getSingleton(timeout);
+        unprocessedRequest = UnprocessedRequest.getSingleton();
     }
     @Override
     public Object send(ProtocolRequestEndpointWrapper req) {

@@ -1,5 +1,6 @@
 package github.qyqd.remote.transport.netty.server;
 
+import github.qyqd.config.RpcConfig;
 import github.qyqd.remote.transport.netty.channel.NettyChannelHandlerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -19,12 +20,8 @@ import github.qyqd.remote.entity.EndPoint;
  */
 @Slf4j
 public class NettyServer implements RpcServer {
-    EndPoint endPoint;
     EventLoopGroup bossGroup;
     EventLoopGroup workerGroup;
-    public NettyServer(EndPoint endPoint) {
-        this.endPoint = endPoint;
-    }
     @Override
     public void start() {
         bossGroup = new NioEventLoopGroup();
@@ -36,8 +33,8 @@ public class NettyServer implements RpcServer {
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childHandler(new NettyChannelHandlerInitializer());
         try {
-            ChannelFuture cf = bootstrap.bind(endPoint.getPort()).sync();
-            log.info("rpc server started at port " + endPoint.getPort());
+            ChannelFuture cf = bootstrap.bind(RpcConfig.PORT).sync();
+            log.info("rpc server started at port " + RpcConfig.PORT);
             cf.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("occur exception when start server:", e);

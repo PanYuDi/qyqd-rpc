@@ -3,6 +3,7 @@ package github.qyqd.remote.transport.netty.client;
 import github.qyqd.common.exception.RpcException;
 import github.qyqd.common.exception.TimeOutException;
 import github.qyqd.common.utils.ConcurrentUtils;
+import github.qyqd.config.RpcConfig;
 import github.qyqd.remote.RequestMessage;
 import github.qyqd.remote.message.ProtocolMessage;
 import github.qyqd.remote.transport.serialize.ProtostuffSerializer;
@@ -30,16 +31,11 @@ public class UnprocessedRequest {
     private static ThreadPoolExecutor executor = ConcurrentUtils.getThreadPoolExecutor();
     private DelayQueue<TimeoutMessage> timeoutQueue = new DelayQueue<>();
     Serializer serializer = new ProtostuffSerializer();
-    long TIME_OUT;
     private UnprocessedRequest() {
         //启动超时管理线程
         executor.execute(()->handleTimeout());
     }
-    public static UnprocessedRequest getSingleton(long timeout) {
-        UnprocessedRequest singleton = getSingleton();
-        singleton.TIME_OUT = timeout;
-        return UnprocessedRequest.singleton;
-    }
+
     public static UnprocessedRequest getSingleton() {
         if(singleton == null) {
             synchronized (UnprocessedRequest.class) {
@@ -53,7 +49,7 @@ public class UnprocessedRequest {
     public void putUnprocessedRequest(Integer requestId, CompletableFuture<RequestMessage> resultFuture) {
         requestFutureMap.put(requestId, resultFuture);
         // 放入延迟队列管理超时
-        timeoutQueue.put(new TimeoutMessage(requestId, System.currentTimeMillis() + TIME_OUT));
+        timeoutQueue.put(new TimeoutMessage(requestId, System.currentTimeMillis() + RpcConfig.TIMEOUT));
     }
     public RequestMessage get(String requestId) {
         if(!requestFutureMap.containsKey(requestId)) {
@@ -113,8 +109,5 @@ public class UnprocessedRequest {
     }
     public static Integer getRequestId() {
         return requestIdGenerator.getAndIncrement();
-    }
-    public void setTimeOut(long timeout) {
-        this.TIME_OUT = timeout;
     }
 }
