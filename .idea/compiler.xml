@@ -2,12 +2,27 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="qyqd-rpc" />
+        <module name="github.qyqd.rpc-common" />
+        <module name="rpc-example" />
+        <module name="github.qyqd.rpc-example" />
+        <module name="rpc-framework" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="example" target="1.8" />
+      <module name="rpc-common" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="example" options="-parameters" />
+      <module name="github.qyqd.rpc-example" options="-parameters" />
+      <module name="rpc-example" options="-parameters" />
+    </option>
   </component>
 </project>
