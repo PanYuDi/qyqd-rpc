@@ -31,6 +31,8 @@ public class RpcRequestMessageHandler implements MessageHandler {
         RpcRequest rpcRequest = (RpcRequest) message;
         log.debug("rpc message received {}", rpcRequest);
         Invocation invocation = RpcInvocation.builder()
+                .url(rpcRequest.getUrl())
+                .interfaceName(rpcRequest.getInterfaceName())
                 .serviceName(rpcRequest.getServiceName())
                 .methodName(rpcRequest.getMethodName())
                 .parameters(rpcRequest.getParameters())

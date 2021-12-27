@@ -7,5 +7,5 @@ package github.qyqd.rpcexample.proxy.client;
  */
 
 public interface HelloService {
-    public String hello();
+    public String hello(String name);
 }

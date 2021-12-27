@@ -33,12 +33,12 @@ public class RpcBeanPostProcessor implements BeanPostProcessor {
             String serviceName = null;
             // 如果服务名为空则自动为其命名
             if(annotation.serviceName().isEmpty()) {
-                serviceName = RpcServiceUtil.generateServiceName(beanName);
+                serviceName = RpcServiceUtil.generateServiceName(beanClass);
             } else {
                 serviceName = annotation.serviceName();
             }
             // 构建信息
-            ServiceInfo serviceInfo = ServiceInfo.builder().bean(bean).serviceName(serviceName).type(bean.getClass()).interfaceType(annotation.interfaceType()).build();
+            ServiceInfo serviceInfo = ServiceInfo.builder().bean(bean).serviceName(serviceName).type(bean.getClass()).interfaceType(annotation.interfaceType()).interfaceName(annotation.interfaceType().getName()).build();
             // 注册服务
             if(registry.check(beanClass)) {
                 registry.register(serviceInfo);

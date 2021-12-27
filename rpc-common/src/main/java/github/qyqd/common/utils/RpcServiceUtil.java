@@ -14,7 +14,7 @@ public class RpcServiceUtil {
      * @return
      */
     private final static String prefix = "qyqd:";
-    public static String generateServiceName(String beanName) {
-        return prefix + beanName;
+    public static String generateServiceName(Class<?> clazz) {
+        return clazz.getName();
     }
 }

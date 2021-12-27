@@ -37,7 +37,7 @@ public class NettyServer implements RpcServer {
                 .childHandler(new NettyChannelHandlerInitializer());
         try {
             ChannelFuture cf = bootstrap.bind(endPoint.getPort()).sync();
-            log.info("rpc server started at port" + endPoint.getPort());
+            log.info("rpc server started at port " + endPoint.getPort());
             cf.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("occur exception when start server:", e);

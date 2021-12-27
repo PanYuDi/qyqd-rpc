@@ -19,6 +19,7 @@ public class RpcRequest implements RequestMessage, Serializable {
     String interfaceName;
     String serviceName;
     Integer requestId;
+    String url;
     Object[] parameters;
     Class<?>[] parameterTypes;
 }

@@ -43,6 +43,7 @@ public class ClientServiceInvoker extends AbstractInvoker{
         rpcRequest.setServiceName(invocation.getServiceName());
         rpcRequest.setParameters(invocation.getParameters());
         rpcRequest.setParameterTypes(invocation.getParameterTypes());
+        rpcRequest.setUrl(invocation.getUrl());
         wrapper.setRequestId(requestId);
         wrapper.setHost(route.getHost());
         wrapper.setPort(route.getPort());

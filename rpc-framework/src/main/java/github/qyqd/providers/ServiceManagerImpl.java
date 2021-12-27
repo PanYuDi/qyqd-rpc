@@ -9,8 +9,10 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @ClassName SpringContextServiceManager
@@ -20,7 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Version 1.0
  */
 public class ServiceManagerImpl implements ServiceManager{
-    Map<String, Invoker> serviceMap = new ConcurrentHashMap<>();
+    Map<String, Invoker> serviceNameMap = new ConcurrentHashMap<>();
+    Map<String, List<Invoker>> interfaceNameMap = new ConcurrentHashMap<>();
     private static ServiceManagerImpl singleton = new ServiceManagerImpl();
     // 单例
     private ServiceManagerImpl() {
@@ -31,24 +34,29 @@ public class ServiceManagerImpl implements ServiceManager{
     }
     @Override
     public Invoker getInvoker(Invocation invocation) {
-        return serviceMap.get(invocation.getServiceName());
+        // 先通过serviceName找服务
+        Invoker invoker = serviceNameMap.get(invocation.getServiceName());
+        // 然后通过接口名
+        if(invoker == null) {
+            List<Invoker> invokerList = interfaceNameMap.get(invocation.getInterfaceName());
+            if(invokerList != null && invokerList.size() > 0) {
+                invoker = invokerList.get(0);
+            }
+        }
+        if(invoker == null) {
+            throw new RpcException("can not find service " + invocation);
+        }
+        return invoker;
     }
 
     @Override
     public void addService(ServiceInfo serviceInfo, Invoker invoker) {
-        Invoker invoker1 = serviceMap.putIfAbsent(serviceInfo.getServiceName(), invoker);
+        Invoker invoker1 = serviceNameMap.putIfAbsent(serviceInfo.getServiceName(), invoker);
         if(invoker1 != null) {
             throw new RpcException("service name duplicated");
         }
+        interfaceNameMap.putIfAbsent(serviceInfo.getInterfaceName(), new CopyOnWriteArrayList<>());
+        interfaceNameMap.get(serviceInfo.getInterfaceName()).add(invoker);
     }
 
-    @Override
-    public Invoker removeService(String serviceName) {
-        return serviceMap.remove(serviceName);
-    }
-
-    @Override
-    public Invoker getInvokerByName(String serviceName) {
-        return serviceMap.get(serviceName);
-    }
 }

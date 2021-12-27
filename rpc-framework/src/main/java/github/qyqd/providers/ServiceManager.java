@@ -19,16 +19,4 @@ public interface ServiceManager extends Provider {
      */
     public void addService(ServiceInfo serviceInfo, Invoker invoker);
 
-    /**
-     * 移除一个服务
-     * @param serviceName
-     */
-    public Invoker removeService(String serviceName);
-
-    /**
-     * 通过名称查找服务
-     * @param serviceName
-     * @return
-     */
-    public Invoker getInvokerByName(String serviceName);
 }

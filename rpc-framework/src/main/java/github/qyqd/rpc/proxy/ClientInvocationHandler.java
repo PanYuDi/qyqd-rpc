@@ -1,5 +1,6 @@
 package github.qyqd.rpc.proxy;
 
+import github.qyqd.remote.message.rpc.RpcResponse;
 import github.qyqd.rpc.invoker.ClientServiceInvoker;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
@@ -36,6 +37,6 @@ public class ClientInvocationHandler implements InvocationHandler {
         if(result.getException() != null) {
             throw result.getException();
         }
-        return result.getValue();
+        return ((RpcResponse)result.getValue()).getResult();
     }
 }

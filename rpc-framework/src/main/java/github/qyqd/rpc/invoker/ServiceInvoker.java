@@ -29,7 +29,7 @@ public class ServiceInvoker extends AbstractInvoker {
         log.debug("begin invoke target instance, parameters is {}", invocation);
         log.debug("target service type is {}", targetService.getClass().getName());
         try {
-            Method method = targetService.getClass().getMethod(invocation.getMethodName());
+            Method method = targetService.getClass().getMethod(invocation.getMethodName(), invocation.getParameterTypes());
             Object result = method.invoke(targetService, invocation.getParameters());
             return new RpcResult(result);
         } catch (NoSuchMethodException e) {

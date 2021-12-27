@@ -4,6 +4,9 @@ import github.qyqd.common.exception.RpcException;
 import github.qyqd.common.exception.TimeOutException;
 import github.qyqd.common.utils.ConcurrentUtils;
 import github.qyqd.remote.RequestMessage;
+import github.qyqd.remote.message.ProtocolMessage;
+import github.qyqd.remote.transport.serialize.ProtostuffSerializer;
+import github.qyqd.remote.transport.serialize.Serializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,7 @@ public class UnprocessedRequest {
     private static volatile UnprocessedRequest singleton = null;
     private static ThreadPoolExecutor executor = ConcurrentUtils.getThreadPoolExecutor();
     private DelayQueue<TimeoutMessage> timeoutQueue = new DelayQueue<>();
+    Serializer serializer = new ProtostuffSerializer();
     long TIME_OUT;
     private UnprocessedRequest() {
         //启动超时管理线程
@@ -81,7 +85,7 @@ public class UnprocessedRequest {
         long timeoutStamp;
         @Override
         public long getDelay(TimeUnit unit) {
-            return unit.convert(timeoutStamp - System.nanoTime(), TimeUnit.MILLISECONDS);
+            return unit.convert(timeoutStamp - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
         }
 
         @Override

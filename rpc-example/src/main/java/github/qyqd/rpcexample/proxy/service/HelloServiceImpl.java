@@ -11,7 +11,7 @@ import github.qyqd.rpcexample.proxy.client.HelloService;
 @RpcProvider(interfaceType = HelloService.class)
 public class HelloServiceImpl implements HelloService {
     @Override
-    public String hello() {
-        return "hi";
+    public String hello(String name) {
+        return "hi " + name;
     }
 }
