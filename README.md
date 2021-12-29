@@ -4,14 +4,13 @@
 
 1. 直连模式调用rpc服务
 2. 通过工厂创建代理对象
-
+3. 通过注解注入代理对象，spring管理
 
 
 1.1计划实现的功能：
 
-1. spring动态代理包扫描
-2. 客户端扫描注解
-3. nacos注册中心连接模式
+
+1. nacos注册中心连接模式
 
 # 使用方法
 
@@ -51,17 +50,22 @@ public class HelloServiceImpl implements HelloService {
 ```java
 @Configuration
 @ComponentScan("github.qyqd.rpcexample")
-public class ServerConfig {
+public class RpcConfig {
     @Bean
     public RpcServer getServer() throws InterruptedException {
-        RpcServer rpcServer = new NettyServer(EndPoint.builder().host("127.0.0.1").port(8000).build());
+        RpcServer rpcServer = new NettyServer();
         return rpcServer;
     }
     @Bean
     public RpcBeanPostProcessor getRpcBeanPostProcessor() {
         return new RpcBeanPostProcessor();
     }
+    @Bean
+    public ClientBeanPostProcessor getClientBeanPostProcessor() {
+        return new ClientBeanPostProcessor();
+    }
 }
+
 ```
 
 5. server端启动服务
@@ -69,22 +73,34 @@ public class ServerConfig {
 ```java
 public class ServerMain {
     public static void main(String[] args) throws InterruptedException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(ServerConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(RpcConfig.class);
         RpcServer server = context.getBean(RpcServer.class);
         server.start();
     }
 }
 
 ```
+6. 编写业务类,放入容器
+```
+@Component
+public class TestClientService {
+    @RpcReference(url = "qyqd://direct/127.0.0.1:8000/")
+    HelloService helloService;
+    public String sayHello() {
+       return helloService.hello("pyd");
+    }
+}
 
-6. client端调用服务,按照如下格式填写调用路由地址
+```
+7. client端调用服务
 
 ```java
 public class TestRpcClient {
     public static void main(String[] args) {
-        HelloService helloService = new RpcBeanFactoryImpl().createBean("qyqd://direct/127.0.0.1:8000/", HelloService.class);
-        String hello = helloService.hello("pyd");
-        System.out.println(hello);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RpcConfig.class);
+        TestClientService testClientService = context.getBean(TestClientService.class);
+        String hello = testClientService.sayHello();
+        log.info(hello);
     }
 }
 ```
