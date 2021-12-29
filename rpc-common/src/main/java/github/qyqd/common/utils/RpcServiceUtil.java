@@ -1,5 +1,7 @@
 package github.qyqd.common.utils;
 
+import java.util.UUID;
+
 /**
  * @ClassName RpcServiceUtil
  * @Description 服务相关工具类
@@ -15,6 +17,6 @@ public class RpcServiceUtil {
      */
     private final static String prefix = "qyqd:";
     public static String generateServiceName(Class<?> clazz) {
-        return clazz.getName();
+        return UUID.randomUUID().toString();
     }
 }

@@ -53,7 +53,7 @@ public class ServiceManagerImpl implements ServiceManager{
     public void addService(ServiceInfo serviceInfo, Invoker invoker) {
         Invoker invoker1 = serviceNameMap.putIfAbsent(serviceInfo.getServiceName(), invoker);
         if(invoker1 != null) {
-            throw new RpcException("service name duplicated");
+            throw new RpcException("service name duplicated, name:" + serviceInfo.getServiceName());
         }
         interfaceNameMap.putIfAbsent(serviceInfo.getInterfaceName(), new CopyOnWriteArrayList<>());
         interfaceNameMap.get(serviceInfo.getInterfaceName()).add(invoker);

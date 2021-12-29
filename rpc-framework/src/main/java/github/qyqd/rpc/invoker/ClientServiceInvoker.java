@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Slf4j
 public class ClientServiceInvoker extends AbstractInvoker{
-    private static RpcClient client = new NettyClient(1000 * 1000 * 1000L);
+    private static RpcClient client = new NettyClient();
     // TODO 路由解析器，赋值
     Parser parser = new DirectRouteParser();
     @Override

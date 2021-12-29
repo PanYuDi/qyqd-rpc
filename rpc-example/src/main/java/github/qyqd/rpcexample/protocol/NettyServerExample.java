@@ -13,7 +13,7 @@ import github.qyqd.remote.transport.netty.server.NettyServer;
  */
 public class NettyServerExample {
     public static void main(String[] args) throws InterruptedException {
-        RpcServer rpcServer = new NettyServer(EndPoint.builder().host("127.0.0.1").port(8088).build());
+        RpcServer rpcServer = new NettyServer();
         rpcServer.start();
     }
 }

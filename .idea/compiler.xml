@@ -16,6 +16,7 @@
     <bytecodeTargetLevel>
       <module name="example" target="1.8" />
       <module name="rpc-common" target="8" />
+      <module name="rpc-example" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
