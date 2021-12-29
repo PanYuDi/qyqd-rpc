@@ -22,4 +22,9 @@ public interface Registry {
      * @param serviceInfo
      */
     void register(ServiceInfo serviceInfo);
+
+    /**
+     *
+     */
+
 }
