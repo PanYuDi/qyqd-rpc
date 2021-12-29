@@ -81,7 +81,7 @@ public class ServerMain {
 
 ```
 6. 编写业务类,放入容器
-```
+```java
 @Component
 public class TestClientService {
     @RpcReference(url = "qyqd://direct/127.0.0.1:8000/")
