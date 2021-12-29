@@ -13,7 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class ServerMain {
     public static void main(String[] args) throws InterruptedException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(ServerConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(RpcConfig.class);
         RpcServer server = context.getBean(RpcServer.class);
         server.start();
     }
