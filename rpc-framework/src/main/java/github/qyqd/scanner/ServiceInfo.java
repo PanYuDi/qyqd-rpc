@@ -16,6 +16,5 @@ public class ServiceInfo {
     String interfaceName;
     Object bean;
     Class<?> interfaceType;
-    String serviceName;
     Class<?> type;
 }

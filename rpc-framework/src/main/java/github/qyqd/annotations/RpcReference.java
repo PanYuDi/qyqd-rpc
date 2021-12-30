@@ -17,5 +17,4 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 public @interface RpcReference {
     String url() default "";
-    String serviceName() default "";
 }

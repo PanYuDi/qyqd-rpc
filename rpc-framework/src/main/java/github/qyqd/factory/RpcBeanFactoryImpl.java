@@ -16,21 +16,15 @@ import io.protostuff.Rpc;
 public class RpcBeanFactoryImpl implements RpcBeanFactory {
     Provider provider = new RouteProvider();
     @Override
-    public <T> T createBean(String serviceName, String url, Class<T> clazz) {
+    public <T> T createBean(String url, Class<T> clazz) {
         if(!clazz.isInterface()) {
             throw new RpcException("only interface can be passed");
         }
         Invocation invocation = new RpcInvocation();
-        invocation.setServiceName(serviceName);
         invocation.setUrl(url);
         invocation.setInterfaceName(clazz.getName());
         Invoker invoker = provider.getInvoker(invocation);
         return (T)invoker.invoke(invocation).getValue();
     }
 
-    @Override
-    public <T> T createBean(String url, Class<T> clazz) {
-        String serviceName = clazz.getName();
-        return createBean(serviceName, url, clazz);
-    }
 }

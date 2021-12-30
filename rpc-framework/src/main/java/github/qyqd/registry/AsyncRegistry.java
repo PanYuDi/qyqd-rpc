@@ -31,14 +31,21 @@ public abstract class AsyncRegistry implements Registry {
     @Override
     public void register(ServiceInfo serviceInfo) {
         executor.execute(() -> {
-            try {
-                doRegister(serviceInfo);
-                if(sc != null) {
-                    sc.onSuccess(serviceInfo);
+            Exception eF = null;
+            for(int i = 0; i < RETRY_TIMES; i++) {
+                try {
+                    doRegister(serviceInfo);
+                    if(sc != null) {
+                        sc.onSuccess(serviceInfo);
+                    }
+                    return;
+                } catch (Exception e) {
+                    log.debug("encounter exception while regist {}, registry is {}", serviceInfo, this.getClass().getName());
+                    eF = e;
                 }
-            } catch (Exception e) {
-                log.debug("encounter exception while regist {}, registry is {}", serviceInfo, this.getClass().getName());
-                fc.onFail(serviceInfo, e);
+            }
+            if(fc != null) {
+                fc.onFail(serviceInfo, eF);
             }
         });
     }

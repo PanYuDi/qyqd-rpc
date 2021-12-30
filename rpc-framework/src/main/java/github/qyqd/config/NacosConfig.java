@@ -8,9 +8,11 @@ package github.qyqd.config;
  * Version 1.0
  */
 public class NacosConfig {
+    public static String serverAddr;
+
     public static String host;
 
-    public static String port;
+    public static Integer port;
 
     public static String group;
 

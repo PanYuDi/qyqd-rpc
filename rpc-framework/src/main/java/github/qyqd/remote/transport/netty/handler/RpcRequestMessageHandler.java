@@ -33,7 +33,6 @@ public class RpcRequestMessageHandler implements MessageHandler {
         Invocation invocation = RpcInvocation.builder()
                 .url(rpcRequest.getUrl())
                 .interfaceName(rpcRequest.getInterfaceName())
-                .serviceName(rpcRequest.getServiceName())
                 .methodName(rpcRequest.getMethodName())
                 .parameters(rpcRequest.getParameters())
                 .parameterTypes(rpcRequest.getParameterTypes())
