@@ -25,4 +25,6 @@ public class RegistryMetadata {
 
     String protocol = "qyqd";
 
+    String clazzName;
+
 }

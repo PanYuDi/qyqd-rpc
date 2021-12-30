@@ -17,4 +17,5 @@ public class ServiceInfo {
     Object bean;
     Class<?> interfaceType;
     Class<?> type;
+    String beanName;
 }

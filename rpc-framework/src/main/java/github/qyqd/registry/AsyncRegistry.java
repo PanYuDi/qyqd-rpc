@@ -1,5 +1,6 @@
 package github.qyqd.registry;
 
+import com.alibaba.nacos.api.exception.NacosException;
 import github.qyqd.common.utils.ConcurrentUtils;
 import github.qyqd.scanner.ServiceInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +55,7 @@ public abstract class AsyncRegistry implements Registry {
      *  实际的注册执行方法
      * @param serviceInfo
      */
-    public abstract void doRegister(ServiceInfo serviceInfo);
+    public abstract void doRegister(ServiceInfo serviceInfo) throws NacosException;
     @FunctionalInterface
     interface SuccessCallback {
         /**

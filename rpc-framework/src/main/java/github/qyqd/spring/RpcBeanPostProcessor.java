@@ -32,7 +32,7 @@ public class RpcBeanPostProcessor implements BeanPostProcessor {
             }
             String serviceName = null;
             // 构建信息
-            ServiceInfo serviceInfo = ServiceInfo.builder().bean(bean).type(bean.getClass()).interfaceType(annotation.interfaceType()).interfaceName(annotation.interfaceType().getName()).build();
+            ServiceInfo serviceInfo = ServiceInfo.builder().beanName(beanName).bean(bean).type(bean.getClass()).interfaceType(annotation.interfaceType()).interfaceName(annotation.interfaceType().getName()).build();
             // 注册服务
             if(registry.check(beanClass)) {
                 registry.register(serviceInfo);
