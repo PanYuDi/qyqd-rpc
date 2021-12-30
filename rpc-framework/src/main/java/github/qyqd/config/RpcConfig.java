@@ -23,4 +23,5 @@ public class RpcConfig {
      */
     public static String[] BASE_PACKAGES;
 
+
 }

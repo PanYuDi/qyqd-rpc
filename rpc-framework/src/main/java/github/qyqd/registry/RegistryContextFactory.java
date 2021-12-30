@@ -10,7 +10,7 @@ package github.qyqd.registry;
 public class RegistryContextFactory implements RegistryFactory{
     @Override
     public Registry create() {
-        RegistryContext registryContext = new RegistryContext();
+        RegistryContextImpl registryContext = new RegistryContextImpl();
         registryContext.addRegistry(new ServiceManagerRegistry());
         return registryContext;
     }

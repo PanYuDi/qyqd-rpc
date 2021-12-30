@@ -24,7 +24,10 @@ public interface Registry {
     void register(ServiceInfo serviceInfo);
 
     /**
-     *
+     * 删除一个服务
      */
+    default void unregister(ServiceInfo serviceInfo) {
+
+    }
 
 }
