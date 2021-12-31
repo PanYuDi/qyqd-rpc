@@ -1,5 +1,8 @@
 package github.qyqd.config;
 
+import github.qyqd.common.enums.RegisterTypeEnum;
+import github.qyqd.common.enums.RouteTypeEnum;
+
 /**
  * @ClassName NacosConfig
  * @Description nacos配置类
@@ -17,4 +20,7 @@ public class NacosConfig {
     public static String group;
 
     public static String namespace;
+
+    public static boolean enable = true;
+
 }

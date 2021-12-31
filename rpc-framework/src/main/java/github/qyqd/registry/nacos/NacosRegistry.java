@@ -3,6 +3,7 @@ package github.qyqd.registry.nacos;
 import com.alibaba.nacos.api.exception.NacosException;
 import github.qyqd.common.enums.RegisterTypeEnum;
 import github.qyqd.common.exception.RpcException;
+import github.qyqd.config.RpcConfig;
 import github.qyqd.registry.AsyncRegistry;
 import github.qyqd.registry.Registry;
 import github.qyqd.registry.RegistryMetadata;
@@ -45,6 +46,8 @@ public class NacosRegistry extends AsyncRegistry {
         registryMetadata.setTimestamp(System.currentTimeMillis());
         registryMetadata.setClazzName(serviceInfo.getType().getName());
         registryMetadata.setInterfaceName(serviceInfo.getInterfaceName());
+        registryMetadata.setServiceIp(RpcConfig.HOST);
+        registryMetadata.setServicePort(RpcConfig.PORT);
         nacosUtils.registerMetadata(registryMetadata);
     }
 

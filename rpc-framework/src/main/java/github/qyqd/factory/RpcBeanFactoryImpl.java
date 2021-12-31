@@ -1,6 +1,7 @@
 package github.qyqd.factory;
 
 import github.qyqd.common.exception.RpcException;
+import github.qyqd.providers.DefaultProvider;
 import github.qyqd.providers.Provider;
 import github.qyqd.providers.RouteProvider;
 import github.qyqd.rpc.invoker.Invocation;
@@ -14,7 +15,7 @@ import io.protostuff.Rpc;
  * @Description: bean工厂实现类
  */
 public class RpcBeanFactoryImpl implements RpcBeanFactory {
-    Provider provider = new RouteProvider();
+    Provider provider = new DefaultProvider();
     @Override
     public <T> T createBean(String url, Class<T> clazz) {
         if(!clazz.isInterface()) {

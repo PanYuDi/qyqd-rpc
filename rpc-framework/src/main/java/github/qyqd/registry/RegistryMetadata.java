@@ -27,4 +27,8 @@ public class RegistryMetadata {
 
     String clazzName;
 
+    String serviceIp;
+
+    Integer servicePort;
+
 }

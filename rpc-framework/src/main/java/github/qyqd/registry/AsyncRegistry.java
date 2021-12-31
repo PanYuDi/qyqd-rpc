@@ -41,6 +41,7 @@ public abstract class AsyncRegistry implements Registry {
                     }
                     return;
                 } catch (Exception e) {
+                    e.printStackTrace();
                     log.debug("encounter exception while regist {}, registry is {}", serviceInfo, this.getClass().getName());
                     eF = e;
                 }
