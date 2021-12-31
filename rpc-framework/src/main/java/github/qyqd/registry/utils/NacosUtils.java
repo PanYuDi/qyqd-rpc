@@ -30,7 +30,7 @@ public class NacosUtils {
     private static final String CATEGORY = "category";
     private static final String BEAN_NAME = "beanName";
     private static final String TIMESTAMP = "timestamp";
-    private static final String PROTOCOL = "qyqd";
+    private static final String PROTOCOL = "protocol";
     private static final String CLASS_NAME = "className";
     /**
      * 做一层缓存
@@ -82,7 +82,7 @@ public class NacosUtils {
         instance.addMetadata(INTERFACE_NAME, metadata.getInterfaceName());
         instance.addMetadata(CATEGORY, metadata.getCategory());
         instance.addMetadata(BEAN_NAME, metadata.getBeanName());
-        instance.addMetadata(TIMESTAMP, metadata.getBeanName());
+        instance.addMetadata(TIMESTAMP, Long.valueOf(System.currentTimeMillis()).toString());
         instance.addMetadata(PROTOCOL, metadata.getProtocol());
         instance.addMetadata(CLASS_NAME, metadata.getClazzName());
     }

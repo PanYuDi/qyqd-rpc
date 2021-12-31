@@ -1,7 +1,7 @@
 package github.qyqd.rpcexample.proxy.client;
 
+import github.qyqd.config.NacosConfig;
 import github.qyqd.factory.RpcBeanFactoryImpl;
-import github.qyqd.rpcexample.proxy.service.RpcConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,7 +13,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 @Slf4j
 public class TestRpcClient {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RpcConfig.class);
+        NacosConfig.serverAddr = "1.15.113.171:8848";
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ClientRpcConfig.class);
         TestClientService testClientService = context.getBean(TestClientService.class);
         String hello = testClientService.sayHello();
         log.info(hello);

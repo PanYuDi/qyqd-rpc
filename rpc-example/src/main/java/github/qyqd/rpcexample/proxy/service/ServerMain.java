@@ -16,7 +16,7 @@ public class ServerMain {
     public static void main(String[] args) throws InterruptedException {
         // 配置注册中心
         NacosConfig.serverAddr = "1.15.113.171:8848";
-        ApplicationContext context = new AnnotationConfigApplicationContext(RpcConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(ServerRpcConfig.class);
         RpcServer server = context.getBean(RpcServer.class);
         server.start();
     }
