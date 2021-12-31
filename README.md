@@ -13,14 +13,14 @@ https://www.cnblogs.com/PanYuDi/
 1. 直连模式调用rpc服务
 2. 通过工厂创建代理对象
 3. 通过注解注入代理对象，spring管理
+4. nacos注册中心连接模式
 
-
-1.1计划实现的功能：
-
-
-1. nacos注册中心连接模式
+1.2计划实现的功能：
+1. 心跳机制，保证长连接
+2. 负载均衡机制
 
 ## 使用方法
+### 直连模式
 
 1. 引入framework包
 
@@ -53,12 +53,24 @@ public class HelloServiceImpl implements HelloService {
 
 ```
 
-4. 编写服务启动类，这里通过spring管理,做了两件事，创建服务启动类和注册前置处理器
-
+4. 编写客户端和服务端的配置类，这里通过spring管理,做了两件事，创建服务启动类和注册前置处理器
+**客户端**
 ```java
 @Configuration
-@ComponentScan("github.qyqd.rpcexample")
-public class RpcConfig {
+@ComponentScan("github.qyqd.rpcexample.proxy.client")
+public class ClientRpcConfig {
+    @Bean
+    public ClientBeanPostProcessor getClientBeanPostProcessor() {
+        return new ClientBeanPostProcessor();
+    }
+}
+
+```
+**服务端**
+```java
+@Configuration
+@ComponentScan("github.qyqd.rpcexample.proxy.service")
+public class ServerRpcConfig {
     @Bean
     public RpcServer getServer() throws InterruptedException {
         RpcServer rpcServer = new NettyServer();
@@ -68,14 +80,10 @@ public class RpcConfig {
     public RpcBeanPostProcessor getRpcBeanPostProcessor() {
         return new RpcBeanPostProcessor();
     }
-    @Bean
-    public ClientBeanPostProcessor getClientBeanPostProcessor() {
-        return new ClientBeanPostProcessor();
-    }
 }
 
-```
 
+```
 5. server端启动服务
 
 ```java
