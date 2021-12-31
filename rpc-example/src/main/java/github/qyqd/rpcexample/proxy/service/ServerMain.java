@@ -1,5 +1,6 @@
 package github.qyqd.rpcexample.proxy.service;
 
+import github.qyqd.config.NacosConfig;
 import github.qyqd.remote.RpcServer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,7 +14,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class ServerMain {
     public static void main(String[] args) throws InterruptedException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(RpcConfig.class);
+        // 配置注册中心
+        NacosConfig.serverAddr = "1.15.113.171:8848";
+        ApplicationContext context = new AnnotationConfigApplicationContext(ServerRpcConfig.class);
         RpcServer server = context.getBean(RpcServer.class);
         server.start();
     }

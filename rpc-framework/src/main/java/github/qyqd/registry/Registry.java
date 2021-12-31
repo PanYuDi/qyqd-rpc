@@ -22,4 +22,12 @@ public interface Registry {
      * @param serviceInfo
      */
     void register(ServiceInfo serviceInfo);
+
+    /**
+     * 删除一个服务
+     */
+    default void unregister(ServiceInfo serviceInfo) {
+
+    }
+
 }

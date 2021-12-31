@@ -17,7 +17,6 @@ public class RpcRequest implements RequestMessage, Serializable {
     private static final Long serializationId = 2L;
     String methodName;
     String interfaceName;
-    String serviceName;
     Integer requestId;
     String url;
     Object[] parameters;

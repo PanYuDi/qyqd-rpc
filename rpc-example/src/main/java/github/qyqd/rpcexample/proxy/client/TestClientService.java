@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TestClientService {
-    @RpcReference(url = "qyqd://direct/127.0.0.1:8000/")
+    @RpcReference()
     HelloService helloService;
     public String sayHello() {
        return helloService.hello("pyd");

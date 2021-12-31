@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @Author: 潘语笛
  * @Date: 26/12/2021 下午3:37
- * @Description: TODO
+ * @Description: 服务端Rpc配置
  */
 @Configuration
 @ComponentScan("github.qyqd.rpcexample")
-public class RpcConfig {
+public class ServerRpcConfig {
     @Bean
     public RpcServer getServer() throws InterruptedException {
         RpcServer rpcServer = new NettyServer();
@@ -25,9 +25,5 @@ public class RpcConfig {
     @Bean
     public RpcBeanPostProcessor getRpcBeanPostProcessor() {
         return new RpcBeanPostProcessor();
-    }
-    @Bean
-    public ClientBeanPostProcessor getClientBeanPostProcessor() {
-        return new ClientBeanPostProcessor();
     }
 }

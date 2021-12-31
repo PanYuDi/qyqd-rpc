@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RpcInvocation implements Invocation {
     String interfaceName;
-    String serviceName;
     String methodName;
     Class<?>[] parameterTypes;
     Object[] parameters;
@@ -24,11 +23,6 @@ public class RpcInvocation implements Invocation {
     @Override
     public String getInterfaceName() {
         return interfaceName;
-    }
-
-    @Override
-    public String getServiceName() {
-        return serviceName;
     }
 
     @Override

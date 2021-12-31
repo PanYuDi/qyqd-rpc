@@ -32,11 +32,7 @@ public class ClientBeanPostProcessor implements BeanPostProcessor {
             if(annotation != null) {
                 field.setAccessible(true);
                 try {
-                    if(annotation.serviceName() == null) {
-                        field.set(bean, rpcBeanFactory.createBean(annotation.url(), field.getType()));
-                    } else {
-                        field.set(bean, rpcBeanFactory.createBean(annotation.serviceName(), annotation.url(), field.getType()));
-                    }
+                    field.set(bean, rpcBeanFactory.createBean(annotation.url(), field.getType()));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     throw new RpcException("should not happened: field set failed!");

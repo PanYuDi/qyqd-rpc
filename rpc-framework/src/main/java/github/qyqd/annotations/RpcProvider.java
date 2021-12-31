@@ -17,11 +17,6 @@ import java.lang.annotation.*;
 @Primary
 @Inherited
 public @interface RpcProvider {
-    /**
-     * 指定的服务名称，服务注册时应提供默认值
-     * @return
-     */
-    String serviceName() default "";
 
     /**
      * 实现方法的接口

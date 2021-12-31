@@ -13,12 +13,6 @@ public interface Invocation {
     String getInterfaceName();
 
     /**
-     * 服务名称
-     * @return
-     */
-    String getServiceName();
-
-    /**
      * 获取方法名
      * @return
      */
@@ -49,8 +43,6 @@ public interface Invocation {
     void setParameters(Object[] parameters);
 
     void setInterfaceName(String interfaceName);
-
-    void setServiceName(String serviceName);
 
     void setUrl(String url);
 
