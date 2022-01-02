@@ -120,4 +120,29 @@ public class TestRpcClient {
     }
 }
 ```
+## nacos模式
+1. 客户端和服务端启动前需要先配置nacos的地址,例如客户端
+```
+public class TestRpcClient {
+    public static void main(String[] args) {
+        NacosConfig.serverAddr = "1.15.113.171:8848";
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ClientRpcConfig.class);
+        TestClientService testClientService = context.getBean(TestClientService.class);
+        String hello = testClientService.sayHello();
+        log.info(hello);
+    }
+}
+```
+2. RpcReferenve注解不需要填写任何信息
+```
+@Component
+public class TestClientService {
+    @RpcReference
+    HelloService helloService;
+    public String sayHello() {
+       return helloService.hello("pyd");
+    }
+}
 
+```
+其余步骤和直连一致
