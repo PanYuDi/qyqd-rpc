@@ -17,5 +17,8 @@ public class ProtocolConstant {
     public static final int CURRENT_VERSION = 1;
     public static final byte[] HEARTBEAT_REQUEST_PAYLOAD = "PING".getBytes(StandardCharsets.UTF_8);
     public static final byte[] HEARTBEAT_RESPONSE_PAYLOAD = "PONG".getBytes(StandardCharsets.UTF_8);
+    public static final int READ_IDLE_TIME_SECOND = 5;
+    public static final int WRITE_IDLE_TIME_SECOND = 5;
+    public static final int ALL_IDLE_TIME_SECOND = 10;
 
 }
