@@ -4,6 +4,7 @@ import github.qyqd.common.enums.ProtocolMessageTypeEnum;
 import github.qyqd.common.exception.MessageHandlerException;
 import github.qyqd.remote.RequestMessage;
 import github.qyqd.remote.constant.ProtocolConstant;
+import github.qyqd.remote.message.ProtocolMessage;
 import github.qyqd.remote.message.heartbeat.HeartbeatMessage;
 import github.qyqd.remote.transport.netty.MessageHandler;
 import github.qyqd.remote.utils.ProtocolMessageUtils;
@@ -30,7 +31,8 @@ public class HeartbeatRequestMessageHandler implements MessageHandler {
             throw new MessageHandlerException("you gotta be kidding me");
         }
         log.debug("接受到心跳消息{}", new String(content, StandardCharsets.UTF_8));
-        ctx.writeAndFlush(ProtocolMessageUtils.buildProtocolMessage(ProtocolMessageUtils.createHeartBeatResponseMessage(), ProtocolMessageTypeEnum.HEARTBEAT_RESPONSE_MESSAGE));
+        ProtocolMessage protocolMessage = ProtocolMessageUtils.buildProtocolMessage(ProtocolMessageUtils.createHeartBeatResponseMessage(), ProtocolMessageTypeEnum.HEARTBEAT_RESPONSE_MESSAGE);
+        ctx.writeAndFlush(protocolMessage);
         return null;
     }
 

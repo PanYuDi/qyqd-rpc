@@ -10,6 +10,7 @@ import github.qyqd.remote.transport.netty.client.UnprocessedRequest;
 import github.qyqd.remote.transport.serialize.ProtostuffSerializer;
 import github.qyqd.remote.transport.serialize.Serializer;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName ResponseDeserilizeHandler
@@ -18,6 +19,7 @@ import io.netty.channel.ChannelHandlerContext;
  * @Date 27/12/2021 上午10:47
  * Version 1.0
  */
+@Slf4j
 public class ResponseDeserilizeHandler implements MessageHandler {
     Serializer serializer = new ProtostuffSerializer();
     UnprocessedRequest unprocessedRequest = UnprocessedRequest.getSingleton();
@@ -32,6 +34,7 @@ public class ResponseDeserilizeHandler implements MessageHandler {
                 unprocessedRequest.complete(requestId, result);
                 break;
             case HEARTBEAT_RESPONSE_MESSAGE:
+                log.debug("接收到心跳返回消息 from {}", ctx.channel().remoteAddress().toString());
                 result = serializer.deSerialize(content, HeartbeatMessage.class);
                 unprocessedRequest.complete(requestId, result);
                 break;

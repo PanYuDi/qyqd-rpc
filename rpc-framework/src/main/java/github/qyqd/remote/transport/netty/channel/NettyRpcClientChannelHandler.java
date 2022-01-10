@@ -51,20 +51,29 @@ public class NettyRpcClientChannelHandler extends ChannelInboundHandlerAdapter {
                 ProtocolMessage protocolMessage = ProtocolMessageUtils.buildProtocolMessage(heartBeatRequestMessage, ProtocolMessageTypeEnum.HEARTBEAT_REQUEST_MESSAGE);
                 CompletableFuture<RequestMessage> resultFuture = new CompletableFuture<>();
                 unprocessedRequest.putUnprocessedRequest(protocolMessage.getRequestId(), resultFuture);
-                ctx.writeAndFlush(protocolMessage);
-                try {
-                    // 接收到返回消息，如果正常则不管了
-                    RequestMessage requestMessage = resultFuture.get();
-                    log.debug("receive heartbeat response from {} ", socketAddress.toString());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                // 添加超时回调，关闭tcp连接并移除容器
+                resultFuture.exceptionally(e -> {
                     // 发生心跳超时， 关闭对应连接
                     log.info("cannot receive heartbeat response from {} so the connection will be closed", socketAddress.toString());
                     Channel channel = nettyChannelContext.get(socketAddress);
                     channel.close();
                     nettyChannelContext.remove(socketAddress);
-                }
+                    return null;
+                });
+                ctx.writeAndFlush(protocolMessage);
+//                try {
+//                    // 接收到返回消息，如果正常则不管了
+//                    RequestMessage requestMessage = resultFuture.get();
+//                    log.debug("receive heartbeat response from {} ", socketAddress.toString());
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    // 发生心跳超时， 关闭对应连接
+//                    log.info("cannot receive heartbeat response from {} so the connection will be closed", socketAddress.toString());
+//                    Channel channel = nettyChannelContext.get(socketAddress);
+//                    channel.close();
+//                    nettyChannelContext.remove(socketAddress);
+//                }
             }
         } else {
             super.userEventTriggered(ctx, evt);

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description: 服务端Rpc配置
  */
 @Configuration
-@ComponentScan("github.qyqd.rpcexample")
+@ComponentScan("github.qyqd.rpcexample.proxy.service")
 public class ServerRpcConfig {
     @Bean
     public RpcServer getServer() throws InterruptedException {

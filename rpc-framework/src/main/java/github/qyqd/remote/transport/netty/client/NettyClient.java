@@ -49,8 +49,8 @@ public class NettyClient implements RpcClient {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new ChannelMessageEncoder());
                         pipeline.addLast(new ChannelMessageDecoder());
-                        pipeline.addLast(new NettyRpcClientChannelHandler(nettyChannelContext));
                         pipeline.addLast(new IdleStateHandler(ProtocolConstant.READ_IDLE_TIME_SECOND, ProtocolConstant.WRITE_IDLE_TIME_SECOND, ProtocolConstant.ALL_IDLE_TIME_SECOND));
+                        pipeline.addLast(new NettyRpcClientChannelHandler(nettyChannelContext));
 
                     }
                 });

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 @Slf4j
 public class TestRpcClient {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         NacosConfig.serverAddr = "1.15.113.171:8848";
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ClientRpcConfig.class);
         TestClientService testClientService = context.getBean(TestClientService.class);
