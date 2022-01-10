@@ -1,5 +1,6 @@
 package github.qyqd.remote.transport.netty.client;
 
+import github.qyqd.common.exception.RpcException;
 import github.qyqd.remote.RequestMessage;
 import github.qyqd.remote.RpcClient;
 import github.qyqd.remote.message.ProtocolMessage;
@@ -32,6 +33,7 @@ public class NettyClient implements RpcClient {
     private final EventLoopGroup eventLoopGroup;
     private final Bootstrap bootstrap;
     private UnprocessedRequest unprocessedRequest;
+    NettyChannelContext nettyChannelContext =  new NettyChannelContext();
     public NettyClient() {
         eventLoopGroup = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
@@ -85,5 +87,27 @@ public class NettyClient implements RpcClient {
             e.printStackTrace();
         }
         return resultFuture;
+    }
+
+    private Channel getChannel(InetSocketAddress inetSocketAddress) {
+        // TODO 获取Channel
+        Channel channel = nettyChannelContext.get(inetSocketAddress);
+        // 缓存未命中
+        if(channel == null) {
+            ChannelFuture channelFuture = null;
+            try {
+                channelFuture = bootstrap.connect(inetSocketAddress).sync();
+                channel = channelFuture.channel();
+                if(channel.isActive()) {
+                    // 放入缓存并返回
+                    
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new RpcException("connect rpc server failed");
+            }
+        } else {
+            return channel;
+        }
     }
 }
