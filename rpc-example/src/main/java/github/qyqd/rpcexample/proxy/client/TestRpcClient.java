@@ -18,5 +18,10 @@ public class TestRpcClient {
         TestClientService testClientService = context.getBean(TestClientService.class);
         String hello = testClientService.sayHello();
         log.info(hello);
+        // 测试心跳，服务器断点住，应打印出连接已移除的日志
+        Thread.sleep(1000 * 20);
+        // 睡眠结束前重启服务器，应能够再次请求
+        hello = testClientService.sayHello();
+        log.info(hello);
     }
 }

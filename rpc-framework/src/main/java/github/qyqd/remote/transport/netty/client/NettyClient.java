@@ -96,8 +96,9 @@ public class NettyClient implements RpcClient {
                     throw new RpcException("connect rpc server failed");
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
-                throw new RpcException("connect rpc server failed");
+                throw new RpcException("connect rpc server failed " + inetSocketAddress.toString());
+            } catch (Exception e) {
+                throw new RpcException(e.getMessage());
             }
         } else {
             return channel;
