@@ -28,19 +28,21 @@ public class ResponseDeserilizeHandler implements MessageHandler {
         RequestMessage result = null;
         byte[] content = ((ProtocolMessage) message).getContent();
         Integer requestId = ((ProtocolMessage) message).getRequestId();
+        if(!unprocessedRequest.contains(requestId)) {
+            return null;
+        }
         switch (((ProtocolMessage)message).getMessageType()) {
             case RPC_RESPONSE:
                 result = serializer.deSerialize(content, RpcResponse.class);
-                unprocessedRequest.complete(requestId, result);
                 break;
             case HEARTBEAT_RESPONSE_MESSAGE:
                 log.debug("接收到心跳返回消息 from {}", ctx.channel().remoteAddress().toString());
                 result = serializer.deSerialize(content, HeartbeatMessage.class);
-                unprocessedRequest.complete(requestId, result);
                 break;
             default:
                 throw new RpcException("response message type not support!");
         }
+        unprocessedRequest.complete(requestId, result);
         return result;
     }
 

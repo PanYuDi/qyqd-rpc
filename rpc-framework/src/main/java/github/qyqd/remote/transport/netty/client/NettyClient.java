@@ -81,7 +81,6 @@ public class NettyClient implements RpcClient {
     }
 
     private Channel getChannel(InetSocketAddress inetSocketAddress) {
-        // TODO 获取Channel
         Channel channel = nettyChannelContext.get(inetSocketAddress);
         // 缓存未命中
         if(channel == null) {
