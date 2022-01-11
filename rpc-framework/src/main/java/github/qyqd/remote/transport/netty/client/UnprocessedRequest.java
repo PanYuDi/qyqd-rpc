@@ -51,7 +51,10 @@ public class UnprocessedRequest {
         // 放入延迟队列管理超时
         timeoutQueue.put(new TimeoutMessage(requestId, System.currentTimeMillis() + RpcConfig.TIMEOUT));
     }
-    public RequestMessage get(String requestId) {
+    public boolean contains(Integer requestId) {
+        return requestFutureMap.containsKey(requestId);
+    }
+    public RequestMessage get(Integer requestId) {
         if(!requestFutureMap.containsKey(requestId)) {
             throw new RpcException("get rpc result failed, requestId is " + requestId);
         }
@@ -67,12 +70,22 @@ public class UnprocessedRequest {
         requestFutureMap.remove(requestId);
         return requestMessage;
     }
+    public CompletableFuture<RequestMessage> getFuture(Integer requestId) {
+        return requestFutureMap.get(requestId);
+    }
     public void complete(Integer requestId, RequestMessage requestMessage) {
-        if (!requestFutureMap.containsKey(requestId)) {
-            log.debug("request not exist, and requestId = {}", requestId);
-            return;
+        CompletableFuture<RequestMessage> requestFuture = requestFutureMap.get(requestId);
+        synchronized (requestFuture) {
+            if (!requestFutureMap.containsKey(requestId)) {
+                log.debug("request not exist, and requestId = {}", requestId);
+                return;
+            }
+            if(requestFuture.isDone()) {
+                return;
+            }
+            requestFutureMap.get(requestId).complete(requestMessage);
+            requestFutureMap.remove(requestId);
         }
-        requestFutureMap.get(requestId).complete(requestMessage);
     }
     @AllArgsConstructor
     @Getter
@@ -96,15 +109,24 @@ public class UnprocessedRequest {
         }
     }
     private void handleTimeout() {
-        TimeoutMessage take = null;
-        try {
-            take = timeoutQueue.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        // 超时后手动添加异常
-        if(requestFutureMap.containsKey(take.getRequestId())) {
-            requestFutureMap.get(take.getRequestId()).completeExceptionally(new TimeOutException("timeout"));
+        while (true) {
+            TimeoutMessage take = null;
+            try {
+                take = timeoutQueue.take();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // 超时后手动添加异常
+            if(requestFutureMap.containsKey(take.getRequestId())) {
+                CompletableFuture<RequestMessage> resultFuture = requestFutureMap.get(take.getRequestId());
+                synchronized (resultFuture) {
+                    if(!resultFuture.isDone()) {
+                        log.info("rpc request expired, request id is {}", take.getRequestId());
+                        resultFuture.completeExceptionally(new TimeOutException("timeout"));
+                        requestFutureMap.remove(take.getRequestId());
+                    }
+                }
+            }
         }
     }
     public static Integer getRequestId() {

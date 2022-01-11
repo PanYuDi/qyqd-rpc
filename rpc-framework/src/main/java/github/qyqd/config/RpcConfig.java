@@ -17,7 +17,7 @@ public class RpcConfig {
     /**
      * 超时时间
      */
-    public static Long TIMEOUT = 1000 * 1000L;
+    public static Long TIMEOUT = 1000L;
     /**
      * 客户端包自动扫描路径
      */

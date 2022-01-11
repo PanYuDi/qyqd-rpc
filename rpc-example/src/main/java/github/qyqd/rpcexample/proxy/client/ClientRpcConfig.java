@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * Version 1.0
  */
 @Configuration
-@ComponentScan("github.qyqd.rpcexample")
+@ComponentScan("github.qyqd.rpcexample.proxy.client")
 public class ClientRpcConfig {
     @Bean
     public ClientBeanPostProcessor getClientBeanPostProcessor() {
