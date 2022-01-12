@@ -1,7 +1,7 @@
 package github.qyqd.providers;
 
 import github.qyqd.common.enums.RouteTypeEnum;
-import github.qyqd.config.NacosConfig;
+import github.qyqd.providers.nacos.NacosProvider;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
 import github.qyqd.rpc.invoker.ProxyInvoker;

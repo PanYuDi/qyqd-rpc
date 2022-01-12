@@ -30,7 +30,7 @@
         <dependency>
             <groupId>rpc</groupId>
             <artifactId>rpc-framework</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -3,6 +3,7 @@ package github.qyqd.registry.utils;
 import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.api.naming.listener.EventListener;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import github.qyqd.common.exception.RpcException;
 import github.qyqd.config.NacosConfig;
@@ -40,10 +41,15 @@ public class NacosUtils {
     public NacosUtils() throws NacosException {
         this(NacosConfig.serverAddr);
     }
-    public NacosUtils(String serverAddr) throws NacosException {
+    public NacosUtils(String serverAddr) {
         namingService = namingServiceMap.get(serverAddr);
         if(namingService == null) {
-            namingService = NacosFactory.createNamingService(serverAddr);
+            try {
+                namingService = NacosFactory.createNamingService(serverAddr);
+            } catch (NacosException e) {
+                e.printStackTrace();
+                throw new RpcException("connect nacos server failed");
+            }
             namingServiceMap.put(serverAddr, namingService);
         }
     }
@@ -104,5 +110,14 @@ public class NacosUtils {
     }
     public static String getServiceName(String interfaceName) {
         return NACOS_SERVICE_NAME_PREFIX + interfaceName;
+    }
+
+    public void subscribe(String serviceName, EventListener eventListener) {
+        try {
+            namingService.subscribe(serviceName, eventListener);
+        } catch (NacosException e) {
+            e.printStackTrace();
+            throw new RpcException("subscribe nacos server failed");
+        }
     }
 }
