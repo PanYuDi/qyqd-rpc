@@ -6,7 +6,7 @@
 
 以后还计划在博客写下自己实现过程中遇到的技术重点,敬请期待
 
-https://www.cnblogs.com/PanYuDi/
+https://www.cnblogs.com/PanYuDi/category/2093633.html
 
 目前实现了以下功能
 
