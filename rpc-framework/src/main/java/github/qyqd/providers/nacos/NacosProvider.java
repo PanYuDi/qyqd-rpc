@@ -37,10 +37,14 @@ public class NacosProvider extends AbstractCachedProvider {
     public List<Invocation> getInvocation(Invocation invocation) {
         NacosRoute route = parser.parse(invocation.getUrl());
         try {
-            RegistryMetadata metadata = nacosUtils.lookupService(invocation);
-            String directUrl = RouteUtils.generateDirectUrl(metadata.getServiceIp(), metadata.getServicePort());
-            invocation.setUrl(directUrl);
-            return Arrays.asList(invocation);
+            List<RegistryMetadata> metadata = nacosUtils.lookupService(invocation);
+            List<Invocation> invocations = metadata.stream().map(m->{
+                Invocation newInvocation = new RpcInvocation();
+                BeanUtils.copyProperties(invocation, newInvocation);
+                newInvocation.setUrl(RouteUtils.generateDirectUrl(m.getServiceIp(), m.getServicePort()));
+                return newInvocation;
+            }).collect(Collectors.toList());
+            return invocations;
         } catch (NacosException e) {
             e.printStackTrace();
             throw new RpcException("client connect nacos failed, serverAddr = " + route.getServerAddr());

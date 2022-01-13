@@ -40,9 +40,9 @@ public abstract class AbstractCachedProvider implements Provider, Observer {
 
     @Override
     public Invoker getInvoker(Invocation invocation) {
+        Invocation choose;
         if(invocationDirectory.containsKey(invocation.getInterfaceName())) {
-            Invocation cachedInvocation = loadBalance.choose(invocationDirectory.get(invocation.getInterfaceName()));
-            return nextProvider.getInvoker(cachedInvocation);
+            choose = loadBalance.choose(invocationDirectory.get(invocation.getInterfaceName()));
         } else {
             invocationDirectory.putIfAbsent(invocation.getInterfaceName(), new CopyOnWriteArrayList<>());
             List<Invocation> invocationFind = getInvocation(invocation);
@@ -55,8 +55,11 @@ public abstract class AbstractCachedProvider implements Provider, Observer {
             });
             // 监听这个服务
             subscribe(invocation);
-            return nextProvider.getInvoker(loadBalance.choose(invocationFind));
+            choose = loadBalance.choose(invocationFind);
         }
+        invocation.setUrl(choose.getUrl());
+        return nextProvider.getInvoker(invocation);
+
     }
 
     /**

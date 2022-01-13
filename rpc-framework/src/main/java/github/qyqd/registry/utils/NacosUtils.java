@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * @Author: 潘语笛
@@ -62,19 +63,17 @@ public class NacosUtils {
     }
 
     /**
-     * 先只按照serviceName检索
+     * TODO 先只按照serviceName检索
      * @param invocation
      * @return
      */
-    public RegistryMetadata lookupService(Invocation invocation) throws NacosException {
-        String serviceName = NACOS_SERVICE_NAME_PREFIX + invocation.getInterfaceName();
+    public List<RegistryMetadata> lookupService(Invocation invocation) throws NacosException {
+        String serviceName = NACOS_SERVICE_NAME_PREFIX + invocation.getServiceName();
         List<Instance> instances = namingService.selectInstances(serviceName, true);
         if(instances.isEmpty()) {
             throw new RpcException("cannot find nacos service " + serviceName);
         }
-        // TODO 先选择第一个，以后加入负载均衡算法
-        Instance instance = instances.get(0);
-        RegistryMetadata metadata = getMetadata(instance);
+        List<RegistryMetadata> metadata = instances.stream().map(instance -> getMetadata(instance)).collect(Collectors.toList());
         return metadata;
     }
 

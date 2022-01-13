@@ -1,4 +1,4 @@
-package github.qyqd.rpcexample.proxy.client;
+package github.qyqd.rpcexample.loadbalance.client;
 
 import github.qyqd.annotations.RpcReference;
 import org.springframework.stereotype.Component;
