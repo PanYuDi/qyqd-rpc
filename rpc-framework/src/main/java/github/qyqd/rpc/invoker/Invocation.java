@@ -36,6 +36,11 @@ public interface Invocation {
      */
     String getUrl();
 
+    /**
+     * 获取该服务的key
+     * @return
+     */
+    String getServiceName();
     void setMethodName(String methodName);
 
     void setParameterTypes(Class<?>[] parameterTypes);

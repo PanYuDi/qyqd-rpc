@@ -92,7 +92,7 @@ public class NacosUtils {
         instance.addMetadata(PROTOCOL, metadata.getProtocol());
         instance.addMetadata(CLASS_NAME, metadata.getClazzName());
     }
-    private RegistryMetadata getMetadata(Instance instance) {
+    public RegistryMetadata getMetadata(Instance instance) {
         RegistryMetadata registryMetadata = new RegistryMetadata();
         Map<String, String> metadataMap = instance.getMetadata();
         registryMetadata.setBeanName(metadataMap.get(BEAN_NAME));
