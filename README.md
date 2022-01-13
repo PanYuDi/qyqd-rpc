@@ -18,7 +18,8 @@ https://www.cnblogs.com/PanYuDi/category/2093633.html
 6. 心跳机制，心跳测试失败则关闭长连接并移除连接
 
 1.2计划实现的功能：
-2. 负载均衡机制
+1. 负载均衡机制
+2. 集群容错机制
 
 ## 使用方法
 ### 直连模式
@@ -123,7 +124,7 @@ public class TestRpcClient {
 ```
 ## nacos模式
 1. 客户端和服务端启动前需要先配置nacos的地址,例如客户端
-```
+```java
 public class TestRpcClient {
     public static void main(String[] args) {
         NacosConfig.serverAddr = "1.15.113.171:8848";
@@ -135,7 +136,7 @@ public class TestRpcClient {
 }
 ```
 2. RpcReferenve注解不需要填写任何信息
-```
+```java
 @Component
 public class TestClientService {
     @RpcReference
