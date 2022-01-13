@@ -15,7 +15,10 @@ public class TestRpcClient {
         NacosConfig.serverAddr = "1.15.113.171:8848";
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ClientRpcConfig.class);
         TestClientService testClientService = context.getBean(TestClientService.class);
-        String hello = testClientService.sayHello();
-        log.info(hello);
+        for (int i = 0; i < 20; i++) {
+            Thread.sleep(1000);
+            String hello = testClientService.sayHello();
+            log.info(hello);
+        }
     }
 }

@@ -2,6 +2,7 @@ package github.qyqd.providers;
 
 import github.qyqd.common.enums.RouteTypeEnum;
 import github.qyqd.providers.nacos.NacosProvider;
+import github.qyqd.rpc.invoker.ClientServiceInvoker;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
 import github.qyqd.rpc.invoker.ProxyInvoker;
@@ -19,7 +20,7 @@ public class RouteProvider implements Provider{
         RouteTypeEnum routeTypeEnum = Parser.getRouteType(url);
         switch (routeTypeEnum) {
             case DIRECT:
-                return new ProxyInvoker();
+                return new ClientServiceInvoker();
             case NACOS_REGISTRY:
                 return new NacosProvider().getInvoker(invocation);
             default:

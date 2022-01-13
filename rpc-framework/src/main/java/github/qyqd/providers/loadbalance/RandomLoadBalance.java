@@ -12,11 +12,16 @@ import java.util.Random;
  * @Date 12/1/2022 下午2:26
  * Version 1.0
  */
-public class RandomLoadBalance implements LoadBalance{
+public class RandomLoadBalance extends AbstractLoadBalance{
     @Override
-    public Invocation choose(List<Invocation> invocationList) {
+    public int doChoose(List<Invocation> invocationList) {
         Random random = new Random();
         int i = random.nextInt(invocationList.size());
-        return invocationList.get(i);
+        return i;
+    }
+
+    @Override
+    public int doChooseNext(List<Invocation> invocationList, int previousChoose) {
+        return (previousChoose + 1) % invocationList.size();
     }
 }

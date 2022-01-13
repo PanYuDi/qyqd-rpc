@@ -5,6 +5,7 @@ import github.qyqd.providers.loadbalance.LoadBalance;
 import github.qyqd.providers.loadbalance.RandomLoadBalance;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
+import github.qyqd.rpc.invoker.LoadBalanceInvoker;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Iterator;
@@ -21,7 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Version 1.0
  */
 public abstract class AbstractCachedProvider implements Provider, Observer {
-    Map<String, CopyOnWriteArrayList<Invocation>> invocationDirectory = new ConcurrentHashMap<>();
+    protected Map<String, CopyOnWriteArrayList<Invocation>> invocationDirectory = new ConcurrentHashMap<>();
 
     @Override
     public void updateInvocation(String serviceName, List<Invocation> invocation, UpdateStatusEnum status) {
@@ -35,30 +36,32 @@ public abstract class AbstractCachedProvider implements Provider, Observer {
         }
     }
 
-    private Provider nextProvider = new RouteProvider();
-    LoadBalance loadBalance = new RandomLoadBalance();
-
     @Override
     public Invoker getInvoker(Invocation invocation) {
-        Invocation choose;
+        List<Invocation> invocations;
         if(invocationDirectory.containsKey(invocation.getInterfaceName())) {
-            choose = loadBalance.choose(invocationDirectory.get(invocation.getInterfaceName()));
+            invocations = invocationDirectory.get(invocation.getInterfaceName());
         } else {
             invocationDirectory.putIfAbsent(invocation.getInterfaceName(), new CopyOnWriteArrayList<>());
-            List<Invocation> invocationFind = getInvocation(invocation);
-            if(invocationFind == null) {
+            invocations = getInvocation(invocation);
+            if(invocations == null) {
                 throw new RpcException("cannot find rpc service " + invocation.getInterfaceName());
             }
             invocationDirectory.compute(invocation.getInterfaceName(), (k,v)->{
-                v.addAll(invocationFind);
+                v.addAll(invocations);
                 return v;
             });
             // 监听这个服务
             subscribe(invocation);
-            choose = loadBalance.choose(invocationFind);
         }
-        invocation.setUrl(choose.getUrl());
-        return nextProvider.getInvoker(invocation);
+        invocations.forEach(invocation1 -> {
+            invocation1.setMethodName(invocation.getMethodName());
+            invocation1.setInterfaceName(invocation.getInterfaceName());
+            invocation1.setParameters(invocation.getParameters());
+            invocation1.setParameterTypes(invocation.getParameterTypes());
+        });
+        Invoker invoker = new LoadBalanceInvoker(invocations);
+        return invoker;
 
     }
 

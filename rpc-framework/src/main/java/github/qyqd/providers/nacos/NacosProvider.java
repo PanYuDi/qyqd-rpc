@@ -17,6 +17,7 @@ import github.qyqd.rpc.invoker.RpcInvocation;
 import github.qyqd.rpc.route.NacosRoute;
 import github.qyqd.rpc.route.NacosRouteParser;
 import github.qyqd.rpc.route.Parser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Arrays;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
  * @Date 31/12/2021 上午9:29
  * Version 1.0
  */
+@Slf4j
 public class NacosProvider extends AbstractCachedProvider {
     private NacosRouteParser parser = new NacosRouteParser();
     NacosUtils nacosUtils = new NacosUtils(NacosConfig.serverAddr);
@@ -57,11 +59,14 @@ public class NacosProvider extends AbstractCachedProvider {
      */
     @Override
     public void subscribe(Invocation invocation) {
-        nacosUtils.subscribe(invocation.getServiceName(), (event -> {
-            NamingEvent namingEvent = ((NamingEvent) event);
-            List<Invocation> invocationList = namingEvent.getInstances().stream().map(instance->metadataToInvocation(nacosUtils.getMetadata(instance))).collect(Collectors.toList());
-            updateInvocation(invocation.getServiceName(), invocationList, UpdateStatusEnum.UPDATE);
-        }));
+        if(!invocationDirectory.containsKey(invocation.getServiceName())) {
+            nacosUtils.subscribe(invocation.getServiceName(), (event -> {
+                NamingEvent namingEvent = ((NamingEvent) event);
+                List<Invocation> invocationList = namingEvent.getInstances().stream().map(instance->metadataToInvocation(nacosUtils.getMetadata(instance))).collect(Collectors.toList());
+                log.debug("receive nacos event:{}", invocationList);
+                updateInvocation(invocation.getServiceName(), invocationList, UpdateStatusEnum.UPDATE);
+            }));
+        }
     }
     private Invocation metadataToInvocation(RegistryMetadata metadata) {
         Invocation invocation = new RpcInvocation();

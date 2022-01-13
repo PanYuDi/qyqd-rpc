@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @Description: nacos相关工具类
  */
 public class NacosUtils {
-    private static final String NACOS_SERVICE_NAME_PREFIX = "providers:";
+    private static final String NACOS_SERVICE_NAME_PREFIX = "";
     private static final String METHODS = "methods";
     private static final String INTERFACE_NAME = "interfaceName";
     private static final String CATEGORY = "category";
