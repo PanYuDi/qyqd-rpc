@@ -15,11 +15,11 @@ import java.util.List;
  * @Date 13/1/2022 下午4:07
  * Version 1.0
  */
-public class LoadBalanceInvoker extends AbstractInvoker {
+public class ClusterInvoker extends AbstractInvoker {
     List<Invocation> invocations;
     LoadBalance loadBalance = new RandomLoadBalance();
     Invoker invoker = new ClientServiceInvoker();
-    public LoadBalanceInvoker(List<Invocation> invocations) {
+    public ClusterInvoker(List<Invocation> invocations) {
         this.invocations = invocations;
     }
 

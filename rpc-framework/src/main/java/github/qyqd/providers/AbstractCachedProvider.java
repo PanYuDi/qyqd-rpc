@@ -3,9 +3,9 @@ package github.qyqd.providers;
 import github.qyqd.common.exception.RpcException;
 import github.qyqd.providers.loadbalance.LoadBalance;
 import github.qyqd.providers.loadbalance.RandomLoadBalance;
+import github.qyqd.rpc.invoker.ClusterInvoker;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
-import github.qyqd.rpc.invoker.LoadBalanceInvoker;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Iterator;
@@ -60,7 +60,7 @@ public abstract class AbstractCachedProvider implements Provider, Observer {
             invocation1.setParameters(invocation.getParameters());
             invocation1.setParameterTypes(invocation.getParameterTypes());
         });
-        Invoker invoker = new LoadBalanceInvoker(invocations);
+        Invoker invoker = new ClusterInvoker(invocations);
         return invoker;
 
     }
