@@ -127,7 +127,7 @@ public class TestRpcClient {
 ```java
 public class TestRpcClient {
     public static void main(String[] args) {
-        NacosConfig.serverAddr = "1.15.113.171:8848";
+        NacosConfig.serverAddr = "x.xxx.xxx.xxx:8848";
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ClientRpcConfig.class);
         TestClientService testClientService = context.getBean(TestClientService.class);
         String hello = testClientService.sayHello();
