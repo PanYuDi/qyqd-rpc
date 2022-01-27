@@ -32,7 +32,7 @@ public class NacosTest {
     public void testSubscribe() throws NacosException, InterruptedException {
         NacosUtils nacosUtils = new NacosUtils("1.15.113.171:8848");
         //nacosUtils.sub
-        nacosUtils.subscribe("providers:github.qyqd.rpcexample.proxy.client.HelloService", event -> {
+        nacosUtils.subscribe("providers:github.qyqd.rpcexample.loadbalance.client.HelloService", event -> {
             System.out.println(((NamingEvent)event).getInstances());
         });
         Thread.sleep(1000 * 1000 * 1000);

@@ -13,4 +13,11 @@ import java.util.List;
  */
 public interface LoadBalance {
     public Invocation choose(List<Invocation> invocationList);
+
+    /**
+     * 实现容错机制
+     * @param invocationList
+     * @return
+     */
+    public Invocation chooseNext(List<Invocation> invocationList);
 }

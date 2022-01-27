@@ -14,7 +14,8 @@ public abstract class AbstractInvoker implements Invoker {
     @Override
     public Result invoke(Invocation invocation) {
         try {
-            return doInvoke(invocation);
+            Result result = doInvoke(invocation);
+            return result;
         } catch (RpcException e) {
             // 是RPC框架抛出来的异常
             return new RpcResult(e);

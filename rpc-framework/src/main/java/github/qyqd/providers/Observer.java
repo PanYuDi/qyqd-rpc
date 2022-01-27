@@ -3,6 +3,8 @@ package github.qyqd.providers;
 import github.qyqd.rpc.invoker.Invocation;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 /**
  * @ClassName Observer
  * @Description 远程服务监听观察者
@@ -13,10 +15,11 @@ import lombok.AllArgsConstructor;
 public interface Observer {
     /**
      * 更新Invocation
-     * @param invocation
+     * @param serviceName
+     * @param invocationList
      * @param status
      */
-    public void updateInvocation(Invocation invocation, UpdateStatusEnum status);
+    public void updateInvocation(String serviceName, List<Invocation> invocationList, UpdateStatusEnum status);
 
     /**
      * 监听注册中心

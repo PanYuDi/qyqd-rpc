@@ -1,5 +1,7 @@
 package github.qyqd.rpc.proxy;
 
+import github.qyqd.providers.Provider;
+import github.qyqd.providers.RouteProvider;
 import github.qyqd.remote.message.rpc.RpcResponse;
 import github.qyqd.rpc.invoker.ClientServiceInvoker;
 import github.qyqd.rpc.invoker.Invocation;
@@ -15,7 +17,7 @@ import java.lang.reflect.Method;
  * @Description: jdk代理的handler类
  */
 public class ClientInvocationHandler implements InvocationHandler {
-    private static Invoker invoker = new ClientServiceInvoker();
+    private static Provider nextProvider = new RouteProvider();
     Invocation invocation;
     public ClientInvocationHandler(Invocation invocation) {
         this.invocation = invocation;
@@ -32,7 +34,7 @@ public class ClientInvocationHandler implements InvocationHandler {
             }
         }
         invocation.setParameterTypes(types);
-        Result result = invoker.invoke(invocation);
+        Result result = nextProvider.getInvoker(invocation).invoke(invocation);
         // 处理异常
         if(result.getException() != null) {
             throw result.getException();
