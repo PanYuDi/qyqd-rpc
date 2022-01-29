@@ -1,7 +1,6 @@
 package github.qyqd.providers;
 
 import github.qyqd.common.enums.RouteTypeEnum;
-import github.qyqd.providers.nacos.NacosProvider;
 import github.qyqd.rpc.invoker.ClientServiceInvoker;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
@@ -22,7 +21,7 @@ public class RouteProvider implements Provider{
             case DIRECT:
                 return new ClientServiceInvoker();
             case NACOS_REGISTRY:
-                return new NacosProvider().getInvoker(invocation);
+                return new DirectoryProvider().getInvoker(invocation);
             default:
                 return null;
         }

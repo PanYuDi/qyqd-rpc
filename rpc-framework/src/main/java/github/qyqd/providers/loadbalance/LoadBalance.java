@@ -1,5 +1,6 @@
 package github.qyqd.providers.loadbalance;
 
+import github.qyqd.common.extension.SPI;
 import github.qyqd.rpc.invoker.Invocation;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @Date 12/1/2022 下午2:14
  * Version 1.0
  */
+@SPI
 public interface LoadBalance {
     public Invocation choose(List<Invocation> invocationList);
 

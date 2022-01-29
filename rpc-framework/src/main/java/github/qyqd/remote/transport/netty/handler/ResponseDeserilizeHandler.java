@@ -1,6 +1,8 @@
 package github.qyqd.remote.transport.netty.handler;
 
 import github.qyqd.common.exception.RpcException;
+import github.qyqd.common.extension.ExtensionLoader;
+import github.qyqd.config.ExtensionConfig;
 import github.qyqd.remote.RequestMessage;
 import github.qyqd.remote.message.ProtocolMessage;
 import github.qyqd.remote.message.heartbeat.HeartbeatMessage;
@@ -21,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ResponseDeserilizeHandler implements MessageHandler {
-    Serializer serializer = new ProtostuffSerializer();
+    Serializer serializer = ExtensionLoader.getExtensionLoader(Serializer.class).getExtension(ExtensionConfig.serializer);
     UnprocessedRequest unprocessedRequest = UnprocessedRequest.getSingleton();
     @Override
     public Object handle(RequestMessage message, ChannelHandlerContext ctx) {

@@ -1,5 +1,7 @@
 package github.qyqd.remote.transport.serialize;
 
+import github.qyqd.common.extension.SPI;
+
 /**
  * @ClassName Serializer
  * @Description 序列化器接口
@@ -7,6 +9,7 @@ package github.qyqd.remote.transport.serialize;
  * @Date 1/12/2021 下午3:19
  * Version 1.0
  */
+@SPI
 public interface Serializer {
     /**
      * 序列化对象

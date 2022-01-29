@@ -1,5 +1,6 @@
 package github.qyqd.registry;
 
+import github.qyqd.common.extension.SPI;
 import github.qyqd.scanner.ServiceInfo;
 
 /**
@@ -9,6 +10,7 @@ import github.qyqd.scanner.ServiceInfo;
  * @Date 22/12/2021 下午3:04
  * Version 1.0
  */
+@SPI
 public interface Registry {
     /**
      * 判断该类是否能被注册

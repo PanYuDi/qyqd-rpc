@@ -59,7 +59,7 @@ public final class ExtensionLoader<T> {
         }
 
         if(clazz.getDeclaredAnnotation(SPI.class) == null) {
-            throw new IllegalArgumentException("extension interface should be annotated with SPI");
+            throw new IllegalArgumentException("extension interface should be annotated with SPI " + clazz.getName());
         }
         if(!EXTENSION_LOADER_CACHE.containsKey(clazz)) {
             synchronized (EXTENSION_LOADER_CACHE) {
