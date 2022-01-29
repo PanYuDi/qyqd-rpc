@@ -49,4 +49,9 @@ public class RpcInvocation implements Invocation {
     public String getServiceName() {
         return getInterfaceName();
     }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
 }

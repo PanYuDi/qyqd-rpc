@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class TestClientService {
     @RpcReference
     HelloService helloService;
-    public String sayHello() {
-       return helloService.hello("pyd");
+    public String sayHello(String name) {
+       return helloService.hello(name);
     }
 }

@@ -1,6 +1,7 @@
 package github.qyqd.providers.loadbalance;
 
 import github.qyqd.rpc.invoker.Invocation;
+import github.qyqd.rpc.invoker.RpcInvocation;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +25,7 @@ public class ConsistentLoadBalance implements LoadBalance{
     private ThreadLocal<Integer> preIdx = new ThreadLocal<>();
     @Override
     public Invocation choose(List<Invocation> invocationList) {
-        int identityHashCode = System.identityHashCode(invocationList);
+        int identityHashCode = invocationList.hashCode();
         // build rpc service name by rpcRequest
         Invocation invocation = invocationList.get(0);
         String serviceName = invocation.getServiceName();
@@ -40,8 +41,11 @@ public class ConsistentLoadBalance implements LoadBalance{
     private String getKey(List<Invocation> invocationList) {
         // build rpc service name by rpcRequest
         Invocation invocation = invocationList.get(0);
-        String serviceName = invocation.getServiceName();
-        return serviceName + Arrays.stream(invocation.getParameters());
+        Invocation key = new RpcInvocation();
+        key.setParameters(invocation.getParameters());
+        key.setMethodName(invocation.getMethodName());
+        key.setInterfaceName(invocation.getInterfaceName());
+        return key.toString();
     }
     @Override
     public Invocation chooseNext(List<Invocation> invocationList) {
