@@ -1,5 +1,7 @@
 package github.qyqd.registry;
 
+import github.qyqd.common.extension.ExtensionLoader;
+import github.qyqd.config.ExtensionConfig;
 import github.qyqd.config.NacosConfig;
 import github.qyqd.registry.nacos.NacosRegistry;
 
@@ -16,7 +18,7 @@ public class RegistryContextFactory implements RegistryFactory{
         RegistryContextImpl registryContext = new RegistryContextImpl();
         registryContext.addRegistry(new ServiceManagerRegistry());
         if(NacosConfig.enable) {
-            registryContext.addRegistry(new NacosRegistry());
+            registryContext.addRegistry(ExtensionLoader.getExtensionLoader(Registry.class).getExtension(ExtensionConfig.registry));
         }
         return registryContext;
     }

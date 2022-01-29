@@ -1,5 +1,6 @@
 package github.qyqd.remote;
 
+import github.qyqd.common.extension.SPI;
 import github.qyqd.remote.transport.netty.request.ProtocolRequestEndpointWrapper;
 
 /**
@@ -7,6 +8,7 @@ import github.qyqd.remote.transport.netty.request.ProtocolRequestEndpointWrapper
  * @Date: 2021/11/8 21:05
  * @Description: 客户端Rpc接口
  */
+@SPI
 public interface RpcClient {
     /**
      * 传输信息

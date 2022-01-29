@@ -3,6 +3,7 @@ package github.qyqd.registry.utils;
 import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.api.naming.listener.EventListener;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import github.qyqd.common.exception.RpcException;
 import github.qyqd.config.NacosConfig;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * @Author: 潘语笛
@@ -24,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
  * @Description: nacos相关工具类
  */
 public class NacosUtils {
-    private static final String NACOS_SERVICE_NAME_PREFIX = "providers:";
+    private static final String NACOS_SERVICE_NAME_PREFIX = "";
     private static final String METHODS = "methods";
     private static final String INTERFACE_NAME = "interfaceName";
     private static final String CATEGORY = "category";
@@ -40,10 +42,15 @@ public class NacosUtils {
     public NacosUtils() throws NacosException {
         this(NacosConfig.serverAddr);
     }
-    public NacosUtils(String serverAddr) throws NacosException {
+    public NacosUtils(String serverAddr) {
         namingService = namingServiceMap.get(serverAddr);
         if(namingService == null) {
-            namingService = NacosFactory.createNamingService(serverAddr);
+            try {
+                namingService = NacosFactory.createNamingService(serverAddr);
+            } catch (NacosException e) {
+                e.printStackTrace();
+                throw new RpcException("connect nacos server failed");
+            }
             namingServiceMap.put(serverAddr, namingService);
         }
     }
@@ -56,19 +63,17 @@ public class NacosUtils {
     }
 
     /**
-     * 先只按照serviceName检索
+     * TODO 先只按照serviceName检索
      * @param invocation
      * @return
      */
-    public RegistryMetadata lookupService(Invocation invocation) throws NacosException {
-        String serviceName = NACOS_SERVICE_NAME_PREFIX + invocation.getInterfaceName();
+    public List<RegistryMetadata> lookupService(Invocation invocation) throws NacosException {
+        String serviceName = NACOS_SERVICE_NAME_PREFIX + invocation.getServiceName();
         List<Instance> instances = namingService.selectInstances(serviceName, true);
         if(instances.isEmpty()) {
             throw new RpcException("cannot find nacos service " + serviceName);
         }
-        // TODO 先选择第一个，以后加入负载均衡算法
-        Instance instance = instances.get(0);
-        RegistryMetadata metadata = getMetadata(instance);
+        List<RegistryMetadata> metadata = instances.stream().map(instance -> getMetadata(instance)).collect(Collectors.toList());
         return metadata;
     }
 
@@ -86,7 +91,7 @@ public class NacosUtils {
         instance.addMetadata(PROTOCOL, metadata.getProtocol());
         instance.addMetadata(CLASS_NAME, metadata.getClazzName());
     }
-    private RegistryMetadata getMetadata(Instance instance) {
+    public RegistryMetadata getMetadata(Instance instance) {
         RegistryMetadata registryMetadata = new RegistryMetadata();
         Map<String, String> metadataMap = instance.getMetadata();
         registryMetadata.setBeanName(metadataMap.get(BEAN_NAME));
@@ -104,5 +109,14 @@ public class NacosUtils {
     }
     public static String getServiceName(String interfaceName) {
         return NACOS_SERVICE_NAME_PREFIX + interfaceName;
+    }
+
+    public void subscribe(String serviceName, EventListener eventListener) {
+        try {
+            namingService.subscribe(serviceName, eventListener);
+        } catch (NacosException e) {
+            e.printStackTrace();
+            throw new RpcException("subscribe nacos server failed");
+        }
     }
 }

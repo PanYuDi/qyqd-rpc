@@ -44,4 +44,14 @@ public class RpcInvocation implements Invocation {
     public String getUrl() {
         return url;
     }
+
+    @Override
+    public String getServiceName() {
+        return getInterfaceName();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
 }

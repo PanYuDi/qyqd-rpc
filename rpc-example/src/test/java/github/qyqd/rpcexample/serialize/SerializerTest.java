@@ -1,5 +1,7 @@
 package github.qyqd.rpcexample.serialize;
 
+import github.qyqd.common.extension.ExtensionLoader;
+import github.qyqd.config.ExtensionConfig;
 import github.qyqd.remote.transport.serialize.ProtostuffSerializer;
 import github.qyqd.remote.transport.serialize.Serializer;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * Version 1.0
  */
 public class SerializerTest {
-    Serializer serializer = new ProtostuffSerializer();
+    Serializer serializer = ExtensionLoader.getExtensionLoader(Serializer.class).getExtension(ExtensionConfig.serializer);
     @Test
     public void testSerialize() {
         TestPojo testPojo = new TestPojo();

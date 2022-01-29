@@ -1,6 +1,8 @@
 package github.qyqd.remote.utils;
 
 import github.qyqd.common.enums.ProtocolMessageTypeEnum;
+import github.qyqd.common.extension.ExtensionLoader;
+import github.qyqd.config.ExtensionConfig;
 import github.qyqd.remote.RequestMessage;
 import github.qyqd.remote.message.ProtocolMessage;
 import github.qyqd.remote.constant.ProtocolConstant;
@@ -20,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProtocolMessageUtils {
     private static ThreadLocal<Integer> currentRequestId = new ThreadLocal<>();
     private static AtomicInteger requestIdGenerator = new AtomicInteger(0);
-    static Serializer serializer = new ProtostuffSerializer();
+    static Serializer serializer = ExtensionLoader.getExtensionLoader(Serializer.class).getExtension(ExtensionConfig.serializer);
     public static HeartbeatMessage createHeartBeatRequestMessage() {
         return new HeartbeatMessage(ProtocolConstant.HEARTBEAT_REQUEST_PAYLOAD);
     }

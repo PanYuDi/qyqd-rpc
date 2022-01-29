@@ -1,10 +1,10 @@
 package github.qyqd.providers;
 
-import github.qyqd.common.utils.RouteUtils;
-import github.qyqd.config.NacosConfig;
-import github.qyqd.registry.utils.NacosUtils;
+import github.qyqd.common.extension.ExtensionLoader;
+import github.qyqd.config.ExtensionConfig;
 import github.qyqd.rpc.invoker.Invocation;
 import github.qyqd.rpc.invoker.Invoker;
+import github.qyqd.rpc.invoker.ProxyInvoker;
 
 /**
  * @ClassName DefaultProvider
@@ -14,13 +14,12 @@ import github.qyqd.rpc.invoker.Invoker;
  * Version 1.0
  */
 public class DefaultProvider implements Provider {
-    Provider nextProvider = new RouteProvider();
+    Directory directory = ExtensionLoader.getExtensionLoader(Directory.class).getExtension(ExtensionConfig.directory);
     @Override
     public Invoker getInvoker(Invocation invocation) {
-        // TODO 目前写死成nacos
         if(invocation.getUrl().isEmpty() || invocation.getUrl() == null) {
-            invocation.setUrl(RouteUtils.generateNacosUrl(NacosConfig.serverAddr, NacosUtils.getServiceName(invocation.getInterfaceName())));
+            invocation.setUrl(directory.generateUrl(invocation));
         }
-        return nextProvider.getInvoker(invocation);
+        return new ProxyInvoker();
     }
 }

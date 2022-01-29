@@ -30,7 +30,6 @@ public class UnprocessedRequest {
     private static volatile UnprocessedRequest singleton = null;
     private static ThreadPoolExecutor executor = ConcurrentUtils.getThreadPoolExecutor();
     private DelayQueue<TimeoutMessage> timeoutQueue = new DelayQueue<>();
-    Serializer serializer = new ProtostuffSerializer();
     private UnprocessedRequest() {
         //启动超时管理线程
         executor.execute(()->handleTimeout());

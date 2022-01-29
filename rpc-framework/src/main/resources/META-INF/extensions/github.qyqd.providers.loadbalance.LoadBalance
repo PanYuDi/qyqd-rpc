@@ -1,0 +1,2 @@
+random=github.qyqd.providers.loadbalance.RandomLoadBalance
+consistent=github.qyqd.providers.loadbalance.ConsistentLoadBalance
